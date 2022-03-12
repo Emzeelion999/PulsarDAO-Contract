@@ -6,7 +6,7 @@
 
 from vyper.interfaces import ERC20
 
-interface StableSwap:
+interface Swap:
     def remove_liquidity_one_coin(
         _token_amount: uint256,
         i: int128,
@@ -29,7 +29,7 @@ is_approved: HashMap[address, HashMap[address, bool]]
 
 ATRICRYPTO3: constant(address) = 0x92215849c439E1f8612b6646060B4E3E5ef822cC
 SS_AAVE: constant(address) = 0x445FE580eF8d70FF569aB36e80c647af338db351
-AM3CRV: constant(address) = 0xE7a24EF0C5e95Ffb0f6684b813A78F2a3AD7D171
+AM3PUL: constant(address) = 0xE7a24EF0C5e95Ffb0f6684b813A78F2a3AD7D171
 USDC: constant(address) = 0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174
 
 
@@ -61,12 +61,12 @@ def burn(_coin: address) -> bool:
     # get actual balance in case of transfer fee or pre-existing balance
     amount = ERC20(_coin).balanceOf(self)
 
-    # withdraw from tricrypto as AM3CRV
+    # withdraw from tricrypto as AM3PUL
     CryptoSwap(ATRICRYPTO3).remove_liquidity_one_coin(amount, 0, 0)
 
     # withdraw from aave as USDC
-    amount = ERC20(AM3CRV).balanceOf(self)
-    StableSwap(SS_AAVE).remove_liquidity_one_coin(amount, 1, 0, True)
+    amount = ERC20(AM3PUL).balanceOf(self)
+    Swap(SS_AAVE).remove_liquidity_one_coin(amount, 1, 0, True)
 
     # transfer USDC to receiver
     amount = ERC20(USDC).balanceOf(self)

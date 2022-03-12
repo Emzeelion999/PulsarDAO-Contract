@@ -1,7 +1,7 @@
 import json
 
 from brownie import (
-    ERC20CRV,
+    ERC20PUL,
     GaugeController,
     LiquidityGauge,
     LiquidityGaugeReward,
@@ -57,7 +57,7 @@ def live_part_two():
     admin, _ = config.get_live_admin()
     with open(config.DEPLOYMENTS_JSON) as fp:
         deployments = json.load(fp)
-    token = ERC20CRV.at(deployments["ERC20CRV"])
+    token = ERC20PUL.at(deployments["ERC20PUL"])
     voting_escrow = VotingEscrow.at(deployments["VotingEscrow"])
 
     deploy_part_two(
@@ -71,16 +71,16 @@ def development():
 
 
 def deploy_part_one(admin, confs=1, deployments_json=None):
-    token = ERC20CRV.deploy("Curve DAO Token", "CRV", 18, {"from": admin, "required_confs": confs})
+    token = ERC20PUL.deploy("PulsarDAO Token", "PUL", 18, {"from": admin, "required_confs": confs})
     voting_escrow = VotingEscrow.deploy(
         token,
-        "Vote-escrowed CRV",
-        "veCRV",
-        "veCRV_1.0.0",
+        "Vote-escrowed PUL",
+        "vePUL",
+        "vePUL_1.0.0",
         {"from": admin, "required_confs": confs},
     )
     deployments = {
-        "ERC20CRV": token.address,
+        "ERC20PUL": token.address,
         "VotingEscrow": voting_escrow.address,
     }
     if deployments_json is not None:
@@ -103,7 +103,7 @@ def deploy_part_two(admin, token, voting_escrow, confs=1, deployments_json=None)
     token.set_minter(minter, {"from": admin, "required_confs": confs})
 
     deployments = {
-        "ERC20CRV": token.address,
+        "ERC20PUL": token.address,
         "VotingEscrow": voting_escrow.address,
         "GaugeController": gauge_controller.address,
         "Minter": minter.address,

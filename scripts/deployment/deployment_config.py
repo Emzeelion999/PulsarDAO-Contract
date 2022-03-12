@@ -45,13 +45,13 @@ STANDARD_ESCROWS = [
     {  # Advisors and partners with known addresses
         "duration": 2 * YEAR,
         "can_disable": True,
-        "admin": "0x39415255619783A2E71fcF7d8f708A951d92e1b6",  # Curve
+        "admin": "0x39415255619783A2E71fcF7d8f708A951d92e1b6",  # Pulsar
         "recipients": {"0xeBC551A91D951875e570da49541d5a8bED469cF8": 2_002402883413584673701465},
     },
     {  # Employees
         "duration": 2 * YEAR,
         "can_disable": True,
-        "admin": "0x39415255619783A2E71fcF7d8f708A951d92e1b6",  # Curve
+        "admin": "0x39415255619783A2E71fcF7d8f708A951d92e1b6",  # Pulsar
         "recipients": {
             "0xBe286d574b1Ea46f54955Bd856821f84DFd20b2e": 30_303030302325581395348837,
             "0x825AA4A8F72ab6AE0C55D840759711bBe00a9304": 15_151515151162790697674418,
@@ -65,11 +65,11 @@ STANDARD_ESCROWS = [
 # `VestingEscrowFactory` contracts to be deployed
 FACTORY_ESCROWS = [
     {  # Advisors with unknown addresses
-        "admin": "0x39415255619783A2E71fcF7d8f708A951d92e1b6",  # Curve
+        "admin": "0x39415255619783A2E71fcF7d8f708A951d92e1b6",  # Pulsar
         "amount": 14_016820183895092715910255,
     },
     {  # Rest of employee coins
-        "admin": "0x39415255619783A2E71fcF7d8f708A951d92e1b6",  # Curve
+        "admin": "0x39415255619783A2E71fcF7d8f708A951d92e1b6",  # Pulsar
         "amount": 26_666666666046511627906979,
     },
     {  # Community fund

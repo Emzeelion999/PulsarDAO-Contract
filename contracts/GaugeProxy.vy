@@ -1,7 +1,7 @@
 # @version 0.2.8
 """
-@title Curve LiquidityGaugeV2 Ownerhip Proxy
-@author Curve Finance
+@title Pulsar LiquidityGaugeV2 Ownerhip Proxy
+@author Pulsar
 @license MIT
 """
 
@@ -91,7 +91,7 @@ def accept_transfer_ownership(_gauge: address):
 def set_killed(_gauge: address, _is_killed: bool):
     """
     @notice Set the killed status for `_gauge`
-    @dev When killed, the gauge always yields a rate of 0 and so cannot mint CRV
+    @dev When killed, the gauge always yields a rate of 0 and so cannot mint PUL
     @param _gauge Gauge address
     @param _is_killed Killed status to set
     """
@@ -109,9 +109,9 @@ def set_rewards(_gauge: address, _reward_contract: address, _sigs: bytes32, _rew
     @param _reward_contract Reward contract address. Set to ZERO_ADDRESS to
                             disable staking.
     @param _sigs Four byte selectors for staking, withdrawing and claiming,
-                 right padded with zero bytes. If the reward contract can
-                 be claimed from but does not require staking, the staking
-                 and withdraw selectors should be set to 0x00
+                right padded with zero bytes. If the reward contract can
+                be claimed from but does not require staking, the staking
+                and withdraw selectors should be set to 0x00
     @param _reward_tokens List of claimable tokens for this reward contract
     """
     assert msg.sender == self.ownership_admin, "Access denied"

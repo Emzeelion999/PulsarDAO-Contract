@@ -1,9 +1,9 @@
 # @version 0.2.16
 """
 @title Root-Chain Gauge
-@author Curve Finance
+@author Pulsar
 @license MIT
-@notice Calculates total allocated weekly CRV emission
+@notice Calculates total allocated weekly PUL emission
         mints and sends across a sidechain bridge
 """
 
@@ -13,7 +13,7 @@ from vyper.interfaces import ERC20
 interface HarmonyBridge:
     def lockToken(ethTokenAddr: address, amount: uint256, recipient: address): nonpayable
 
-interface CRV20:
+interface PUL20:
     def start_epoch_time_write() -> uint256: nonpayable
     def rate() -> uint256: view
 
@@ -50,7 +50,7 @@ HARMONY_BRIDGE: constant(address) = 0x2dCCDB493827E15a5dC8f8b72147E6c4A5620857
 
 
 minter: public(address)
-crv_token: public(address)
+pul_token: public(address)
 controller: public(address)
 start_epoch_time: public(uint256)
 
@@ -73,30 +73,30 @@ def __init__(_minter: address, _admin: address, _checkpoint_admin: address):
     @param _checkpoint_admin Address of the checkpoint admin
     """
 
-    crv_token: address = Minter(_minter).token()
+    pul_token: address = Minter(_minter).token()
 
     self.minter = _minter
     self.admin = _admin
-    self.crv_token = crv_token
+    self.pul_token = pul_token
     self.controller = Minter(_minter).controller()
     self.checkpoint_admin = _checkpoint_admin
 
     # because we calculate the rate locally, this gauge cannot
     # be used prior to the start of the first emission period
-    rate: uint256 = CRV20(crv_token).rate()
+    rate: uint256 = PUL20(pul_token).rate()
     assert rate != 0
     self.inflation_rate = rate
 
     self.period = block.timestamp / WEEK - 1
-    self.start_epoch_time = CRV20(crv_token).start_epoch_time_write()
+    self.start_epoch_time = PUL20(pul_token).start_epoch_time_write()
 
-    ERC20(crv_token).approve(HARMONY_BRIDGE, MAX_UINT256)
+    ERC20(pul_token).approve(HARMONY_BRIDGE, MAX_UINT256)
 
 
 @external
 def checkpoint() -> bool:
     """
-    @notice Mint all allocated CRV emissions and transfer across the bridge
+    @notice Mint all allocated PUL emissions and transfer across the bridge
     @dev Should be called once per week, after the new epoch period has begun
     """
     assert self.checkpoint_admin in [ZERO_ADDRESS, msg.sender]
@@ -120,8 +120,8 @@ def checkpoint() -> bool:
 
             if next_epoch_time >= period_time and next_epoch_time < period_time + WEEK:
                 # If the period crosses an epoch, we calculate a reduction in the rate
-                # using the same formula as used in `ERC20CRV`. We perform the calculation
-                # locally instead of calling to `ERC20CRV.rate()` because we are generating
+                # using the same formula as used in `ERC20PUL`. We perform the calculation
+                # locally instead of calling to `ERC20PUL.rate()` because we are generating
                 # the emissions for the upcoming week, so there is a possibility the new
                 # rate has not yet been applied.
                 period_emission = gauge_weight * rate * (next_epoch_time - period_time) / 10**18
@@ -141,7 +141,7 @@ def checkpoint() -> bool:
         self.emissions += new_emissions
         if new_emissions > 0 and not self.is_killed:
             Minter(self.minter).mint(self)
-            HarmonyBridge(HARMONY_BRIDGE).lockToken(self.crv_token, new_emissions, self)
+            HarmonyBridge(HARMONY_BRIDGE).lockToken(self.pul_token, new_emissions, self)
 
     return True
 
@@ -169,7 +169,7 @@ def integrate_fraction(addr: address) -> uint256:
 def set_killed(_is_killed: bool):
     """
     @notice Set the killed status for this contract
-    @dev When killed, the gauge always yields a rate of 0 and so cannot mint CRV
+    @dev When killed, the gauge always yields a rate of 0 and so cannot mint PUL
     @param _is_killed Killed status to set
     """
     assert msg.sender == self.admin  # dev: admin only

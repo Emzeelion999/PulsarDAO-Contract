@@ -1,14 +1,14 @@
 # @version 0.2.4
 """
 @title Liquidity Gauge
-@author Curve Finance
+@author Pulsar
 @license MIT
 @notice Used for measuring liquidity and insurance
 """
 
 from vyper.interfaces import ERC20
 
-interface CRV20:
+interface PUL20:
     def future_epoch_time_write() -> uint256: nonpayable
     def rate() -> uint256: view
 
@@ -58,7 +58,7 @@ BOOST_WARMUP: constant(uint256) = 2 * 7 * 86400
 WEEK: constant(uint256) = 604800
 
 minter: public(address)
-crv_token: public(address)
+pul_token: public(address)
 lp_token: public(address)
 controller: public(address)
 voting_escrow: public(address)
@@ -110,23 +110,23 @@ def __init__(lp_addr: address, _minter: address, _admin: address):
 
     self.lp_token = lp_addr
     self.minter = _minter
-    crv_addr: address = Minter(_minter).token()
-    self.crv_token = crv_addr
+    pul_addr: address = Minter(_minter).token()
+    self.pul_token = pul_addr
     controller_addr: address = Minter(_minter).controller()
     self.controller = controller_addr
     self.voting_escrow = Controller(controller_addr).voting_escrow()
     self.period_timestamp[0] = block.timestamp
-    self.inflation_rate = CRV20(crv_addr).rate()
-    self.future_epoch_time = CRV20(crv_addr).future_epoch_time_write()
+    self.inflation_rate = PUL20(pul_addr).rate()
+    self.future_epoch_time = PUL20(pul_addr).future_epoch_time_write()
     self.admin = _admin
 
 
 @internal
 def _update_liquidity_limit(addr: address, l: uint256, L: uint256):
     """
-    @notice Calculate limits which depend on the amount of CRV token per-user.
+    @notice Calculate limits which depend on the amount of PUL token per-user.
             Effectively it calculates working balances to apply amplification
-            of CRV production by CRV
+            of PUL production by PUL
     @param addr User address
     @param l User's amount of liquidity (LP tokens)
     @param L Total amount of liquidity (LP tokens)
@@ -155,7 +155,7 @@ def _checkpoint(addr: address):
     @notice Checkpoint for a user
     @param addr User address
     """
-    _token: address = self.crv_token
+    _token: address = self.pul_token
     _controller: address = self.controller
     _period: int128 = self.period
     _period_time: uint256 = self.period_timestamp[_period]
@@ -164,8 +164,8 @@ def _checkpoint(addr: address):
     new_rate: uint256 = rate
     prev_future_epoch: uint256 = self.future_epoch_time
     if prev_future_epoch >= _period_time:
-        self.future_epoch_time = CRV20(_token).future_epoch_time_write()
-        new_rate = CRV20(_token).rate()
+        self.future_epoch_time = PUL20(_token).future_epoch_time_write()
+        new_rate = PUL20(_token).rate()
         self.inflation_rate = new_rate
     Controller(_controller).checkpoint_gauge(self)
 

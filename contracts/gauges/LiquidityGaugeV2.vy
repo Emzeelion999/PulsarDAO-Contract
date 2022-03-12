@@ -1,7 +1,7 @@
 # @version 0.2.8
 """
 @title Liquidity Gauge v2
-@author Curve Finance
+@author Pulsar
 @license MIT
 """
 
@@ -10,7 +10,7 @@ from vyper.interfaces import ERC20
 implements: ERC20
 
 
-interface CRV20:
+interface PUL20:
     def future_epoch_time_write() -> uint256: nonpayable
     def rate() -> uint256: view
 
@@ -73,7 +73,7 @@ TOKENLESS_PRODUCTION: constant(uint256) = 40
 WEEK: constant(uint256) = 604800
 
 minter: public(address)
-crv_token: public(address)
+pul_token: public(address)
 lp_token: public(address)
 controller: public(address)
 voting_escrow: public(address)
@@ -138,22 +138,22 @@ def __init__(_lp_token: address, _minter: address, _admin: address):
     """
 
     symbol: String[26] = ERC20Extended(_lp_token).symbol()
-    self.name = concat("Curve.fi ", symbol, " Gauge Deposit")
+    self.name = concat("Pulsar", symbol, "Gauge Deposit")
     self.symbol = concat(symbol, "-gauge")
 
-    crv_token: address = Minter(_minter).token()
+    pul_token: address = Minter(_minter).token()
     controller: address = Minter(_minter).controller()
 
     self.lp_token = _lp_token
     self.minter = _minter
     self.admin = _admin
-    self.crv_token = crv_token
+    self.pul_token = pul_token
     self.controller = controller
     self.voting_escrow = Controller(controller).voting_escrow()
 
     self.period_timestamp[0] = block.timestamp
-    self.inflation_rate = CRV20(crv_token).rate()
-    self.future_epoch_time = CRV20(crv_token).future_epoch_time_write()
+    self.inflation_rate = PUL20(pul_token).rate()
+    self.future_epoch_time = PUL20(pul_token).future_epoch_time_write()
 
 
 @view
@@ -176,9 +176,9 @@ def integrate_checkpoint() -> uint256:
 @internal
 def _update_liquidity_limit(addr: address, l: uint256, L: uint256):
     """
-    @notice Calculate limits which depend on the amount of CRV token per-user.
+    @notice Calculate limits which depend on the amount of PUL token per-user.
             Effectively it calculates working balances to apply amplification
-            of CRV production by CRV
+            of PUL production by PUL
     @param addr User address
     @param l User's amount of liquidity (LP tokens)
     @param L Total amount of liquidity (LP tokens)
@@ -267,9 +267,9 @@ def _checkpoint(addr: address):
     new_rate: uint256 = rate
     prev_future_epoch: uint256 = self.future_epoch_time
     if prev_future_epoch >= _period_time:
-        _token: address = self.crv_token
-        self.future_epoch_time = CRV20(_token).future_epoch_time_write()
-        new_rate = CRV20(_token).rate()
+        _token: address = self.pul_token
+        self.future_epoch_time = PUL20(_token).future_epoch_time_write()
+        new_rate = PUL20(_token).rate()
         self.inflation_rate = new_rate
 
     if self.is_killed:
@@ -726,7 +726,7 @@ def set_rewards(_reward_contract: address, _sigs: bytes32, _reward_tokens: addre
 def set_killed(_is_killed: bool):
     """
     @notice Set the killed status for this contract
-    @dev When killed, the gauge always yields a rate of 0 and so cannot mint CRV
+    @dev When killed, the gauge always yields a rate of 0 and so cannot mint PUL
     @param _is_killed Killed status to set
     """
     assert msg.sender == self.admin

@@ -1,7 +1,7 @@
 # This gauge can be used for measuring liquidity and insurance
 from vyper.interfaces import ERC20
 
-contract CRV20:
+contract PUL20:
     def start_epoch_time_write() -> timestamp: modifying
     def rate() -> uint256: constant
 
@@ -13,7 +13,7 @@ contract Controller:
     def gauge_relative_weight_write(addr: address) -> uint256: modifying
 
 
-crv_token: public(address)
+pul_token: public(address)
 lp_token: public(address)
 controller: public(address)
 balanceOf: public(map(address, uint256))
@@ -43,8 +43,8 @@ inflation_rate: uint256
 
 
 @public
-def __init__(crv_addr: address, lp_addr: address, controller_addr: address):
-    self.crv_token = crv_addr
+def __init__(pul_addr: address, lp_addr: address, controller_addr: address):
+    self.pul_token = pul_addr
     self.lp_token = lp_addr
     self.controller = controller_addr
     self.totalSupply = 0
@@ -53,18 +53,18 @@ def __init__(crv_addr: address, lp_addr: address, controller_addr: address):
     period: int128 = Controller(controller_addr).period()
     self.last_period = period
     self.period_checkpoints[period] = Controller(controller_addr).period_timestamp(period)
-    self.inflation_rate = CRV20(crv_addr).rate()
+    self.inflation_rate = PUL20(pul_addr).rate()
 
 
 @private
 def _checkpoint(addr: address, old_value: uint256, old_supply: uint256):
     _integrate_checkpoint: timestamp = self.integrate_checkpoint
 
-    _token: address = self.crv_token
+    _token: address = self.pul_token
     _controller: address = self.controller
     old_period: int128 = self.last_period
     old_period_time: timestamp = Controller(_controller).period_timestamp(old_period)
-    new_epoch: timestamp = CRV20(_token).start_epoch_time_write()
+    new_epoch: timestamp = PUL20(_token).start_epoch_time_write()
     last_weight: uint256 = Controller(_controller).gauge_relative_weight_write(self)  # Normalized to 1e18
     new_period: int128 = Controller(_controller).period()
     _integrate_inv_supply: uint256 = self.integrate_inv_supply[old_period]
@@ -92,7 +92,7 @@ def _checkpoint(addr: address, old_value: uint256, old_supply: uint256):
                 _integrate_inv_supply += rate * w * dt / old_supply
             self.integrate_inv_supply[p] = _integrate_inv_supply
             if new_period_time == new_epoch:
-                rate = CRV20(_token).rate()
+                rate = PUL20(_token).rate()
                 self.inflation_rate = rate
             old_period_time = new_period_time
             self.period_checkpoints[p] = new_period_time

@@ -1,9 +1,9 @@
-# curve-dao-contracts/contracts/vests
+# PulsarDAO-Contracts/contracts/vests
 
-Contracts for vesting CRV.
+Contracts for vesting PUL.
 
 ## Contracts
 
-* [`VestingEscrow`](VestingEscrow.vy): Vests CRV tokens for multiple addresses over multiple vesting periods
-* [`VestingEscrowFactory`](VestingEscrowFactory.vy): Factory to store CRV and deploy many simplified vesting contracts
-* [`VestingEscrowSimple`](VestingEscrowSimple.vy): Simplified vesting contract that holds CRV for a single address
+* [`VestingEscrow`](VestingEscrow.vy): Vests PUL tokens for multiple addresses over multiple vesting periods
+* [`VestingEscrowFactory`](VestingEscrowFactory.vy): Factory to store PUL and deploy many simplified vesting contracts
+* [`VestingEscrowSimple`](VestingEscrowSimple.vy): Simplified vesting contract that holds PUL for a single address

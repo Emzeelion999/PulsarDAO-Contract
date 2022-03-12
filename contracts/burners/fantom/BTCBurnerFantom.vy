@@ -18,7 +18,7 @@ interface RegistrySwap:
 interface CryptoSwap:
     def exchange(i: uint256, j: uint256, dx: uint256, min_dy: uint256): nonpayable
 
-interface StableSwap:
+interface Swap:
     def remove_liquidity_one_coin(
         _token_amount: uint256,
         i: int128,

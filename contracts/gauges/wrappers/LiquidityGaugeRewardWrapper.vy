@@ -1,7 +1,7 @@
 # @version 0.2.8
 """
 @title Tokenized Liquidity Gauge Wrapper
-@author Curve Finance
+@author Pulsar
 @license MIT
 @notice Allows tokenized deposits and claiming from `LiquidityGaugeReward`
 """
@@ -13,7 +13,7 @@ implements: ERC20
 interface LiquidityGauge:
     def lp_token() -> address: view
     def minter() -> address: view
-    def crv_token() -> address: view
+    def pul_token() -> address: view
     def rewarded_token() -> address: view
     def deposit(_value: uint256): nonpayable
     def withdraw(_value: uint256): nonpayable
@@ -53,7 +53,7 @@ event Approval:
 
 
 minter: public(address)
-crv_token: public(address)
+pul_token: public(address)
 rewarded_token: public(address)
 lp_token: public(address)
 gauge: public(address)
@@ -69,9 +69,9 @@ decimals: public(uint256)
 # caller -> recipient -> can deposit?
 approved_to_deposit: public(HashMap[address, HashMap[address, bool]])
 
-crv_integral: uint256
-crv_integral_for: HashMap[address, uint256]
-claimable_crv: public(HashMap[address, uint256])
+pul_integral: uint256
+pul_integral_for: HashMap[address, uint256]
+claimable_pul: public(HashMap[address, uint256])
 
 reward_integral: public(uint256)
 reward_integral_for: public(HashMap[address, uint256])
@@ -104,7 +104,7 @@ def __init__(
     ERC20(lp_token).approve(_gauge, MAX_UINT256)
 
     self.minter = LiquidityGauge(_gauge).minter()
-    self.crv_token = LiquidityGauge(_gauge).crv_token()
+    self.pul_token = LiquidityGauge(_gauge).pul_token()
     self.rewarded_token = LiquidityGauge(_gauge).rewarded_token()
     self.lp_token = lp_token
     self.gauge = _gauge
@@ -114,7 +114,7 @@ def __init__(
 @internal
 def _checkpoint(addr: address):
     gauge: address = self.gauge
-    token: address = self.crv_token
+    token: address = self.pul_token
     total_balance: uint256 = self.totalSupply
 
     d_reward: uint256 = ERC20(token).balanceOf(self)
@@ -124,10 +124,10 @@ def _checkpoint(addr: address):
     dI: uint256 = 0
     if total_balance > 0:
         dI = 10 ** 18 * d_reward / total_balance
-    I: uint256 = self.crv_integral + dI
-    self.crv_integral = I
-    self.claimable_crv[addr] += self.balanceOf[addr] * (I - self.crv_integral_for[addr]) / 10 ** 18
-    self.crv_integral_for[addr] = I
+    I: uint256 = self.pul_integral + dI
+    self.pul_integral = I
+    self.claimable_pul[addr] += self.balanceOf[addr] * (I - self.pul_integral_for[addr]) / 10 ** 18
+    self.pul_integral_for[addr] = I
 
     token = self.rewarded_token
 
@@ -169,9 +169,9 @@ def claimable_tokens(addr: address) -> uint256:
     dI: uint256 = 0
     if total_balance > 0:
         dI = 10 ** 18 * d_reward / total_balance
-    I: uint256 = self.crv_integral + dI
+    I: uint256 = self.pul_integral + dI
 
-    return self.claimable_crv[addr] + self.balanceOf[addr] * (I - self.crv_integral_for[addr]) / 10 ** 18
+    return self.claimable_pul[addr] + self.balanceOf[addr] * (I - self.pul_integral_for[addr]) / 10 ** 18
 
 
 @view
@@ -199,14 +199,14 @@ def claimable_reward(addr: address) -> uint256:
 @nonreentrant('lock')
 def claim_tokens(addr: address = msg.sender):
     """
-    @notice Claim mintable CRV and reward tokens
+    @notice Claim mintable PUL and reward tokens
     @param addr Address to claim for
     """
     self._checkpoint(addr)
-    assert ERC20(self.crv_token).transfer(addr, self.claimable_crv[addr])
+    assert ERC20(self.pul_token).transfer(addr, self.claimable_pul[addr])
     assert ERC20(self.rewarded_token).transfer(addr, self.claimable_rewards[addr])
 
-    self.claimable_crv[addr] = 0
+    self.claimable_pul[addr] = 0
     self.claimable_rewards[addr] = 0
 
 

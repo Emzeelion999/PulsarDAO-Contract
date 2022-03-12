@@ -1,3 +1,5 @@
+// File @boringcrypto/boring-solidity/contracts/interfaces/IERC20.sol@v1.0.4
+
 // SPDX-License-Identifier: MIT
 pragma solidity 0.6.12;
 

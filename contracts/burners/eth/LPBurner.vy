@@ -1,7 +1,7 @@
 # @version 0.2.7
 """
 @title LP Burner
-@notice Converts Curve LP tokens to a single asset and forwards to another burner
+@notice Converts Pulsar LP tokens to a single asset and forwards to another burner
 """
 
 from vyper.interfaces import ERC20
@@ -14,7 +14,7 @@ interface Registry:
     def get_pool_from_lp_token(_lp_token: address) -> address: view
     def get_coins(_pool: address) -> address[8]: view
 
-interface StableSwap:
+interface Swap:
     def remove_liquidity_one_coin(_amount: uint256, i: int128, _min_amount: uint256): nonpayable
 
 
@@ -43,13 +43,13 @@ def __init__(_recovery: address, _owner: address, _emergency_owner: address):
     """
     @notice Contract constructor
     @dev Unlike other burners, this contract may transfer tokens to
-         multiple addresses after the swap. Receiver addresses are
-         set by calling `set_swap_data` instead of setting it
-         within the constructor.
+        multiple addresses after the swap. Receiver addresses are
+        set by calling `set_swap_data` instead of setting it
+        within the constructor.
     @param _recovery Address that tokens are transferred to during an
-                     emergency token recovery.
+                    emergency token recovery.
     @param _owner Owner address. Can kill the contract, recover tokens
-                  and modify the recovery address.
+                and modify the recovery address.
     @param _emergency_owner Emergency owner address. Can kill the contract
                             and recover tokens.
     """
@@ -79,7 +79,7 @@ def burn(_coin: address) -> bool:
     if amount != 0:
         # remove liquidity and pass to the next burner
         swap_data: SwapData = self.swap_data[_coin]
-        StableSwap(swap_data.pool).remove_liquidity_one_coin(amount, swap_data.i, 0)
+        Swap(swap_data.pool).remove_liquidity_one_coin(amount, swap_data.i, 0)
 
         amount = ERC20(swap_data.coin).balanceOf(self)
         response: Bytes[32] = raw_call(

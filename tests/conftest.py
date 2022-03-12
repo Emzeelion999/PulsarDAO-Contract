@@ -82,14 +82,14 @@ def receiver(accounts):
 
 
 @pytest.fixture(scope="module")
-def token(ERC20CRV, accounts):
-    yield ERC20CRV.deploy("Curve DAO Token", "CRV", 18, {"from": accounts[0]})
+def token(ERC20PUL, accounts):
+    yield ERC20PUL.deploy("PulsarDAO Token", "PUL", 18, {"from": accounts[0]})
 
 
 @pytest.fixture(scope="module")
 def voting_escrow(VotingEscrow, accounts, token):
     yield VotingEscrow.deploy(
-        token, "Voting-escrowed CRV", "veCRV", "veCRV_0.99", {"from": accounts[0]}
+        token, "Voting-escrowed PUL", "vePUL", "vePUL_0.99", {"from": accounts[0]}
     )
 
 
@@ -124,8 +124,8 @@ def coin_reward():
 
 
 @pytest.fixture(scope="module")
-def reward_contract(CurveRewards, mock_lp_token, accounts, coin_reward):
-    contract = CurveRewards.deploy(mock_lp_token, coin_reward, {"from": accounts[0]})
+def reward_contract(PulsarRewards, mock_lp_token, accounts, coin_reward):
+    contract = PulsarRewards.deploy(mock_lp_token, coin_reward, {"from": accounts[0]})
     contract.setRewardDistribution(accounts[0], {"from": accounts[0]})
     yield contract
 
@@ -283,18 +283,18 @@ def coin_c():
 
 
 @pytest.fixture(scope="module")
-def mock_lp_token(ERC20LP, accounts):  # Not using the actual Curve contract
-    yield ERC20LP.deploy("Curve LP token", "usdCrv", 18, 10 ** 9, {"from": accounts[0]})
+def mock_lp_token(ERC20LP, accounts):  # Not using the actual Pulsar contract
+    yield ERC20LP.deploy("Pulsar LP token", "usdPul", 18, 10 ** 9, {"from": accounts[0]})
 
 
 @pytest.fixture(scope="module")
-def pool(CurvePool, accounts, mock_lp_token, coin_a, coin_b):
-    curve_pool = CurvePool.deploy(
+def pool(PulsarPool, accounts, mock_lp_token, coin_a, coin_b):
+    pulsar_pool = PulsarPool.deploy(
         [coin_a, coin_b], mock_lp_token, 100, 4 * 10 ** 6, {"from": accounts[0]}
     )
-    mock_lp_token.set_minter(curve_pool, {"from": accounts[0]})
+    mock_lp_token.set_minter(pulsar_pool, {"from": accounts[0]})
 
-    yield curve_pool
+    yield pulsar_pool
 
 
 @pytest.fixture(scope="module")
@@ -316,22 +316,22 @@ def crypto_coins(coin_a, coin_b, coin_c):
 
 @pytest.fixture(scope="session")
 def crypto_project(pm):
-    return pm("curvefi/curve-crypto-contract@1.0.0")
+    return pm("pulsarswap/pulsar-crypto-contract@1.0.0")
 
 
 @pytest.fixture(scope="module")
 def crypto_lp_token(alice, crypto_project):
-    return crypto_project.CurveTokenV4.deploy("Mock Crypto LP Token", "crvMock", {"from": alice})
+    return crypto_project.PulsarTokenV4.deploy("Mock Crypto LP Token", "pulMock", {"from": alice})
 
 
 @pytest.fixture(scope="module")
 def crypto_math(alice, crypto_project):
-    return crypto_project.CurveCryptoMath3.deploy({"from": alice})
+    return crypto_project.PulsarCryptoMath3.deploy({"from": alice})
 
 
 @pytest.fixture(scope="module")
 def crypto_views(alice, crypto_project, crypto_math, crypto_coins):
-    source: str = crypto_project.CurveCryptoViews3._build["source"]
+    source: str = crypto_project.PulsarCryptoViews3._build["source"]
     for idx, coin in enumerate(crypto_coins):
         new_value = 10 ** (18 - coin.decimals())
         source = source.replace(f"1,#{idx}", f"{new_value},")
@@ -358,14 +358,14 @@ def crypto_pool(
     crypto_coins,
     crypto_initial_prices,
 ):
-    # taken from curvefi/curve-crypto-contract
+    # taken from pulsarswap/pulsar-crypto-contract
     keys = [0, 1, 2, 16, 17, 18, "1,#0", "1,#1", "1,#2"]
     values = (
         [crypto_math.address, crypto_lp_token.address, crypto_views.address]
         + [coin.address for coin in crypto_coins]
         + [f"{10 ** (18 - coin.decimals())}," for coin in crypto_coins]
     )
-    source = crypto_project.CurveCryptoSwap._build["source"]
+    source = crypto_project.PulsarCryptoSwap._build["source"]
     for k, v in zip(keys, values):
         if isinstance(k, int):
             k = convert.to_address(convert.to_bytes(k, "bytes20"))

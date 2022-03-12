@@ -38,7 +38,7 @@ def setup(
         mock_lp_token.approve(gauge, 1e18, {"from": acct})
 
 
-def test_claim_crv(accounts, chain, liquidity_gauge_reward, reward_gauge_wrapper, token):
+def test_claim_pul(accounts, chain, liquidity_gauge_reward, reward_gauge_wrapper, token):
     reward_gauge_wrapper.deposit(1e18, {"from": accounts[1]})
 
     chain.sleep(MONTH)

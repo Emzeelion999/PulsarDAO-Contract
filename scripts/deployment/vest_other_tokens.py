@@ -1,6 +1,6 @@
 import json
 
-from brownie import ERC20CRV, VestingEscrow, VestingEscrowFactory, VestingEscrowSimple, accounts
+from brownie import ERC20PUL, VestingEscrow, VestingEscrowFactory, VestingEscrowSimple, accounts
 
 from . import deployment_config as config
 
@@ -17,20 +17,20 @@ def live():
     with open(config.DEPLOYMENTS_JSON) as fp:
         deployments = json.load(fp)
 
-    vest_tokens(admin, deployments["ERC20CRV"], config.REQUIRED_CONFIRMATIONS)
+    vest_tokens(admin, deployments["ERC20PUL"], config.REQUIRED_CONFIRMATIONS)
 
 
 def development():
     """
     Vest tokens in a development environment and validate the result.
     """
-    token = ERC20CRV.deploy("Curve DAO Token", "CRV", 18, {"from": accounts[0]})
+    token = ERC20PUL.deploy("PulsarDAO Token", "PUL", 18, {"from": accounts[0]})
     vesting_escrow, vested_amounts = vest_tokens(accounts[0], token, 1)
     sanity_check(token, vesting_escrow, vested_amounts)
 
 
 def vest_tokens(admin, token_address, confs):
-    token = ERC20CRV.at(token_address)
+    token = ERC20PUL.at(token_address)
 
     # deploy library and vesting factories
     target = VestingEscrowSimple.deploy({"from": admin, "required_confs": confs})

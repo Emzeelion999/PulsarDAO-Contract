@@ -32,7 +32,7 @@ def USDN(MintableTestToken):
 @pytest.mark.parametrize("burner_balance", (True, False))
 @pytest.mark.parametrize("caller_balance", (True, False))
 def test_swap(
-    USDN, ThreeCRV, alice, receiver, burner, burner_balance, caller_balance, swap, pool_proxy
+    USDN, ThreePUL, alice, receiver, burner, burner_balance, caller_balance, swap, pool_proxy
 ):
     amount = 0
 
@@ -54,9 +54,9 @@ def test_swap(
         assert USDN.balanceOf(receiver) == 0
         assert USDN.balanceOf(burner) == 0
 
-        assert ThreeCRV.balanceOf(alice) == 0
-        assert ThreeCRV.balanceOf(receiver) > 0
-        assert ThreeCRV.balanceOf(burner) == 0
+        assert ThreePUL.balanceOf(alice) == 0
+        assert ThreePUL.balanceOf(receiver) > 0
+        assert ThreePUL.balanceOf(burner) == 0
 
         assert swap.balances(0) == swap_balance + amount
         assert USDN.balanceOf(pool_proxy) > 0

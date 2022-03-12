@@ -1,12 +1,12 @@
-# curve-dao-contracts
+# PulsarDAO-Contracts
 
-Vyper contracts used in the [Curve](https://www.curve.fi/) Governance DAO.
+Vyper contracts used in the [Pulsar](https://www.pulsarswap.com/) Governance DAO.
 
 ## Overview
 
-Curve DAO consists of multiple smart contracts connected by [Aragon](https://github.com/aragon/aragonOS). Interaction with Aragon occurs through a [modified implementation](https://github.com/curvefi/curve-aragon-voting) of the [Aragon Voting App](https://github.com/aragon/aragon-apps/tree/master/apps/voting). Aragon's standard one token, one vote method is replaced with a weighting system based on locking tokens. Curve DAO has a token (CRV) which is used for both governance and value accrual.
+PulsarDAO consists of multiple smart contracts connected by [Aragon](https://github.com/aragon/aragonOS). Interaction with Aragon occurs through a [modified implementation](https://github.com/PulsarSwap/pulsar-aragon-voting) of the [Aragon Voting App](https://github.com/aragon/aragon-apps/tree/master/apps/voting). Aragon's standard one token, one vote method is replaced with a weighting system based on locking tokens. PulsarDAO has a token (PUL) which is used for both governance and value accrual.
 
-View the [documentation](https://curve.readthedocs.io/dao-overview.html) for a more in-depth explanation of how Curve DAO works.
+View the [documentation](https://pulsar.readthedocs.io/dao-overview.html) for a more in-depth explanation of how PulsarDAO works.
 
 ## Testing and Development
 
@@ -23,8 +23,8 @@ View the [documentation](https://curve.readthedocs.io/dao-overview.html) for a m
 To get started, first create and initialize a Python [virtual environment](https://docs.python.org/3/library/venv.html). Next, clone the repo and install the developer dependencies:
 
 ```bash
-git clone https://github.com/curvefi/curve-dao-contracts.git
-cd curve-dao-contracts
+git clone https://github.com/PulsarSwap/PulsarDAO-Contracts.git
+cd PulsarDAO-Contracts
 pip install -r requirements.txt
 ```
 
@@ -45,29 +45,29 @@ brownie test tests/integration
 
 ## Deployment
 
-See the [deployment documentation](scripts/deployment/README.md) for detailed information on how to deploy Curve DAO.
+See the [deployment documentation](scripts/deployment/README.md) for detailed information on how to deploy PulsarDAO.
 
 ## Audits and Security
 
-Curve DAO contracts have been audited by Trail of Bits and Quantstamp. These audit reports are made available on the [Curve website](https://dao.curve.fi/audits).
+PulsarDAO contracts have been audited by Trail of Bits and Quantstamp. These audit reports are made available on the [PulsarDAO Website](https://dao.pulsarswap.com/audits).
 
-There is also an active [bug bounty](https://www.curve.fi/bugbounty) for issues which can lead to substantial loss of money, critical bugs such as a broken live-ness condition, or irreversible loss of funds.
+There is also an active [bug bounty](https://www.pulsarswap.com/bugbounty) for issues which can lead to substantial loss of money, critical bugs such as a broken live-ness condition, or irreversible loss of funds.
 
 ## Resources
 
 You may find the following guides useful:
 
-1. [Curve and Curve DAO Resources](https://resources.curve.fi/)
-2. [How to earn and claim CRV](https://guides.curve.fi/how-to-earn-and-claim-crv/)
-3. [Voting and vote locking on Curve DAO](https://guides.curve.fi/voting-and-vote-locking-curve-dao/)
+1. [Pulsar and PulsarDAO Resources](https://resources.pulsarswap.com/)
+2. [How to earn and claim PUL](https://guides.pulsarswap.com/how-to-earn-and-claim-pul/)
+3. [Voting and vote locking on PulsarDAO](https://guides.pulsarswap.com/voting-and-vote-locking-pulsardao/)
 
 ## Community
 
 If you have any questions about this project, or wish to engage with us:
 
-- [Telegram](https://t.me/curvefi)
-- [Twitter](https://twitter.com/curvefinance)
-- [Discord](https://discord.gg/rgrfS7W)
+- [Twitter](https://twitter.com/PulsarSwap)
+- [Discord](https://discord.gg/c7D5Su82f9)
+- [Telegram](https://t.me/PulsarSwap)
 
 ## License
 

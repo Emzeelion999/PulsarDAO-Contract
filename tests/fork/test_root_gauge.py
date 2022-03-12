@@ -18,11 +18,11 @@ def root_gauge(GaugeController, Minter, RootGaugeArbitrum, alice, chain):
 
 
 def test_checkpoint(alice, interface, root_gauge):
-    crv = interface.ERC20(root_gauge.crv_token())
+    pul = interface.ERC20(root_gauge.pul_token())
 
-    balance_before = crv.balanceOf("0xa3A7B6F88361F48403514059F1F16C8E78d60EeC")
+    balance_before = pul.balanceOf("0xa3A7B6F88361F48403514059F1F16C8E78d60EeC")
     root_gauge.checkpoint({"from": alice, "value": "0.001 ether"})
-    balance_after = crv.balanceOf("0xa3A7B6F88361F48403514059F1F16C8E78d60EeC")
+    balance_after = pul.balanceOf("0xa3A7B6F88361F48403514059F1F16C8E78d60EeC")
 
     assert balance_after > balance_before
 

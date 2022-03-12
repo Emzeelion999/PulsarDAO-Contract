@@ -2,7 +2,7 @@ import datetime
 
 from brownie import Contract, accounts, history, network
 
-# this script is used for bridging CRV rewards to sidechains
+# this script is used for bridging PUL rewards to sidechains
 # it should be run once per week, just after the start of the epoch week
 
 FTM = [
@@ -40,7 +40,7 @@ HARMONY = [
 
 
 def main():
-    acct = accounts.load("curve-deploy")
+    acct = accounts.load("pulsar-deploy")
 
     # xdai/polygon bridge takes longer so we do it first
     for addr in POLYGON + XDAI:
@@ -64,7 +64,7 @@ def main():
 
 
 def fantom():
-    acct = accounts.load("curve-deploy")
+    acct = accounts.load("pulsar-deploy")
     for addr in FTM:
         streamer = Contract(addr)
         token = streamer.reward_tokens(0)
@@ -72,7 +72,7 @@ def fantom():
 
 
 def polygon():
-    acct = accounts.load("curve-deploy")
+    acct = accounts.load("pulsar-deploy")
     for addr in POLYGON:
         streamer = Contract(addr)
         token = streamer.reward_tokens(0)
@@ -80,7 +80,7 @@ def polygon():
 
 
 def xdai():
-    acct = accounts.load("curve-deploy")
+    acct = accounts.load("pulsar-deploy")
     for addr in XDAI:
         streamer = Contract(addr)
         token = streamer.reward_tokens(0)
@@ -88,7 +88,7 @@ def xdai():
 
 
 def arbitrum():
-    acct = accounts.load("curve-deploy")
+    acct = accounts.load("pulsar-deploy")
     for addr in ARBITRUM:
         streamer = Contract(addr)
         token = streamer.reward_tokens(0)
@@ -96,7 +96,7 @@ def arbitrum():
 
 
 def harmony():
-    acct = accounts.load("curve-deploy")
+    acct = accounts.load("pulsar-deploy")
     for addr in HARMONY:
         streamer = Contract(addr)
         token = streamer.reward_tokens(0)
@@ -104,7 +104,7 @@ def harmony():
 
 
 def avax():
-    acct = accounts.load("curve-deploy")
+    acct = accounts.load("pulsar-deploy")
     for addr in AVAX:
         streamer = Contract(addr)
         token = streamer.reward_tokens(0)
@@ -120,11 +120,11 @@ def get_checkpoint_delta():
         network.disconnect()
         network.connect(network_id)
         print(network_id)
-        # reward token 0 is CRV
-        crv_token = Contract(streamers[-1]).reward_tokens(0)
+        # reward token 0 is PUL
+        pul_token = Contract(streamers[-1]).reward_tokens(0)
         for streamer_addr in streamers:
             streamer = Contract(streamer_addr)
             period_finish = datetime.datetime.fromtimestamp(
-                int(streamer.reward_data(crv_token)["period_finish"])
+                int(streamer.reward_data(pul_token)["period_finish"])
             )
             print(streamer.address, "dt:", str(period_finish - now))

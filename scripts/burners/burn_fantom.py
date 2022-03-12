@@ -25,7 +25,7 @@ def _get_pool_list():
 
 
 def main():
-    acct = accounts.load("curve-deploy")
+    acct = accounts.load("pulsar-deploy")
 
     proxy = PoolProxySidechain.at("0xffbACcE0CC7C19d46132f1258FC16CF6871D153c")
     usdt = Contract("0x049d68029688eabf473097a2fc38ef61633a3c7a")

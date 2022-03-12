@@ -9,7 +9,7 @@
 from vyper.interfaces import ERC20
 
 
-interface StableSwap:
+interface Swap:
     def add_liquidity(amounts: uint256[3], min_mint_amount: uint256): nonpayable
 
 interface RegistrySwap:
@@ -67,11 +67,11 @@ def __init__(_receiver: address, _recovery: address, _owner: address, _emergency
     """
     @notice Contract constructor
     @param _receiver Address that converted tokens are transferred to.
-                     Should be set to an `UnderlyingBurner` deployment.
+                    Should be set to an `UnderlyingBurner` deployment.
     @param _recovery Address that tokens are transferred to during an
-                     emergency token recovery.
+                    emergency token recovery.
     @param _owner Owner address. Can kill the contract, recover tokens
-                  and modify the recovery address.
+                and modify the recovery address.
     @param _emergency_owner Emergency owner address. Can kill the contract
                             and recover tokens.
     """
@@ -168,7 +168,7 @@ def convert_synth(_currency_key: bytes32, _amount: uint256) -> bool:
 @external
 def execute() -> bool:
     """
-    @notice Add liquidity to 3pool and transfer 3CRV to the fee distributor
+    @notice Add liquidity to 3pool and transfer 3PUL to the fee distributor
     @return bool success
     """
     assert not self.is_killed  # dev: is killed
@@ -179,7 +179,7 @@ def execute() -> bool:
         ERC20(TRIPOOL_COINS[2]).balanceOf(self),
     ]
     if amounts[0] != 0 and amounts[1] != 0 and amounts[2] != 0:
-        StableSwap(TRIPOOL).add_liquidity(amounts, 0)
+        Swap(TRIPOOL).add_liquidity(amounts, 0)
 
     amount: uint256 = ERC20(TRIPOOL_LP).balanceOf(self)
     if amount != 0:

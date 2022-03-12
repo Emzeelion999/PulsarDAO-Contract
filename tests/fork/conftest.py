@@ -18,7 +18,7 @@ def USDC():
 
 
 @pytest.fixture(scope="module")
-def ThreeCRV():
+def ThreePUL():
     yield _MintableTestToken("0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490")
 
 

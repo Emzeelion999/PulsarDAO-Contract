@@ -48,7 +48,7 @@ def burn(_coin: address) -> bool:
     # get actual balance in case of transfer fee or pre-existing balance
     amount = ERC20(_coin).balanceOf(self)
 
-    # withdraw from tricrypto as AM3CRV
+    # withdraw from tricrypto as AM3PUL
     CryptoSwap(TRICRYPTO).remove_liquidity_one_coin(amount, 0, 0)
 
     # withdraw from aave as USDC

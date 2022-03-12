@@ -1,6 +1,6 @@
-# curve-dao-contracts/scripts/deployment
+# PulsarDAO-Contracts/scripts/deployment
 
-Deployment scripts for the Curve DAO.
+Deployment scripts for the PulsarDAO.
 
 ## Dependencies
 
@@ -16,9 +16,9 @@ Deployment scripts for the Curve DAO.
 
 * Modify the `get_live_admin` function to return the primary admin [`Account`](https://eth-brownie.readthedocs.io/en/stable/api-network.html#brownie.network.account.Account) object and four funding admin accounts. See the Brownie [account management](https://eth-brownie.readthedocs.io/en/stable/account-management.html) documentation for information on how to unlock local accounts.
 * Set vesting information in `STANDARD_ESCROWS` and `FACTORY_ESCROWS`. The structure  of each variable is outlined in the comments.
-* Confirm that `LP_VESTING_JSON` points to the JSON which defines the [percentages each historic LP will receive](https://github.com/curvefi/early-user-distribution/blob/master/output-with-bpt.json).
+* Confirm that `LP_VESTING_JSON` points to the JSON which defines the [percentages each historic LP will receive](https://github.com/PulsarSwap/early-user-distribution/blob/master/output-with-bpt.json).
 
-### 2. Deploying the Curve DAO
+### 2. Deploying the PulsarDAO
 
 1. If you haven't already, install [Brownie](https://github.com/eth-brownie/brownie):
 
@@ -34,13 +34,13 @@ Deployment scripts for the Curve DAO.
 
 3. Run the first stage of the [`deploy_dao`](deploy_dao.py) script:
 
-    Live deployment this is split into two calls. The first action deploys only `ERC20CRV` and `VotingEscrow`:
+    Live deployment this is split into two calls. The first action deploys only `ERC20PUL` and `VotingEscrow`:
 
     ```bash
     brownie run deploy_dao live_part_one --network mainnet
     ```
 
-    With these contracts deployed, the Aragon DAO setup can begin while the rest of Curve DAO is deployed.
+    With these contracts deployed, the Aragon DAO setup can begin while the rest of PulsarDAO is deployed.
 
 4. Run the second stage of [`deploy_dao`](deploy_dao.py):
 
@@ -48,7 +48,7 @@ Deployment scripts for the Curve DAO.
     brownie run deploy_dao live_part_two --network mainnet
     ```
 
-    This deploys and links all of the core Curve DAO contracts. A JSON is generated containing the address of each deployed contract. **DO NOT MOVE OR DELETE THIS FILE**. It is required in later deployment stages.
+    This deploys and links all of the core PulsarDAO contracts. A JSON is generated containing the address of each deployed contract. **DO NOT MOVE OR DELETE THIS FILE**. It is required in later deployment stages.
 
 ### 3. Deploying the Aragon DAO
 
@@ -60,7 +60,7 @@ Deployment scripts for the Curve DAO.
 
 Aragon: [Custom Deploy](https://hack.aragon.org/docs/guides-custom-deploy)
 
-# Deploy the [Curve Aragon Voting App](https://github.com/curvefi/curve-aragon-voting/blob/master/README.md)
+# Deploy the [Pulsar Aragon Voting App](https://github.com/PulsarSwap/pulsar-aragon-voting/blob/master/README.md)
 
 # Deploy Aragon DAO
 
@@ -68,9 +68,9 @@ Read instructions in [Deploy Aragon DAO README](./Deploy_Aragon_DAO_README.md)
 
 Once the DAO is successfully deployed, modify [`deployment_config`](deployment_config.py) so that `ARAGON_AGENT` points to the [Aragon Ownership Agent](https://github.com/aragon/aragon-apps/blob/master/apps/agent/contracts/Agent.sol) deployment.
 
-Deploy subgraphs for Curve Voting App and VotingEscrow
+Deploy subgraphs for Pulsar Voting App and VotingEscrow
 
-### 4. Transferring Ownership of Curve DAO to Aragon
+### 4. Transferring Ownership of PulsarDAO to Aragon
 
 1. Verify [`transfer_dao_ownership`](transfer_dao_ownership) by testing it on a forked mainnet:
 
@@ -86,7 +86,7 @@ Deploy subgraphs for Curve Voting App and VotingEscrow
     brownie run transfer_dao_ownership live --network mainnet
     ```
 
-    This transfers the ownership of [`GaugeController`](../../contracts/GaugeController.vy), [`PoolProxy`](../../contracts/PoolProxy.vy), [`VotingEscrow`](../../contracts/VotingEscrow.vy) and [`ERC20CRV`](../../contracts/ERC20CRV.vy) from the main admin account to the [Aragon Ownership Agent](https://github.com/aragon/aragon-apps/blob/master/apps/agent/contracts/Agent.sol).
+    This transfers the ownership of [`GaugeController`](../../contracts/GaugeController.vy), [`PoolProxy`](../../contracts/PoolProxy.vy), [`VotingEscrow`](../../contracts/VotingEscrow.vy) and [`ERC20PUL`](../../contracts/ERC20PUL.vy) from the main admin account to the [Aragon Ownership Agent](https://github.com/aragon/aragon-apps/blob/master/apps/agent/contracts/Agent.sol).
 
 ### 5. Distributing Vested Tokens
 
@@ -126,7 +126,7 @@ Vesting distribution is split between historic liquidity providers and other acc
     ```
 6. Transfer reserve vesting escrow admin to Aragon Ownership Agent
 
-### 6. Transferring Ownership of Curve Pools to Aragon
+### 6. Transferring Ownership of Pulsar Pools to Aragon
 
 Transferring ownership of pools requires a three day delay between the first call and the second. Calls must be made from the [pool owner](https://etherscan.io/address/0xc447fcaf1def19a583f97b3620627bf69c05b5fb) address.
 
@@ -157,6 +157,6 @@ Transferring ownership of pools requires a three day delay between the first cal
 
 Subgraph setup for UI
 
-Deploy [connect-thegraph-voting](https://github.com/curvefi/connect-thegraph-voting)
+Deploy [connect-thegraph-voting](https://github.com/PulsarSwap/connect-thegraph-voting)
 
-Deploy [votingescrow-subgraph](https://github.com/curvefi/votingescrow-subgraph)
+Deploy [votingescrow-subgraph](https://github.com/PulsarSwap/votingescrow-subgraph)

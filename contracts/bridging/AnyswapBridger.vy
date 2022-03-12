@@ -1,7 +1,7 @@
 # @version 0.3.0
 """
 @title Anyswap Bridging Contract
-@author Curve Finance
+@author Pulsar
 @license MIT
 """
 
@@ -31,7 +31,7 @@ root_receiver: public(address)
 def __init__(_admin: address, _receiver: address):
     """
     @param _admin Contract owner. Should be the `PoolProxy` contract
-                  used to handle fee burns.
+                used to handle fee burns.
     @param _receiver Receiver address on the root chain.
     """
     self.admin = _admin

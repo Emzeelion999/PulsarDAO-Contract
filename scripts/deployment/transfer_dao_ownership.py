@@ -1,6 +1,6 @@
 import json
 
-from brownie import ERC20CRV, GaugeController, PoolProxy, VotingEscrow
+from brownie import ERC20PUL, GaugeController, PoolProxy, VotingEscrow
 
 from . import deployment_config as config
 
@@ -16,7 +16,7 @@ def live():
         deployments["GaugeController"],
         deployments["VotingEscrow"],
         deployments["PoolProxy"],
-        deployments["ERC20CRV"],
+        deployments["ERC20PUL"],
         config.REQUIRED_CONFIRMATIONS,
     )
 
@@ -33,17 +33,17 @@ def development():
         deployments["GaugeController"],
         deployments["VotingEscrow"],
         deployments["PoolProxy"],
-        deployments["ERC20CRV"],
+        deployments["ERC20PUL"],
     )
 
 
 def transfer_ownership(
-    admin, new_admin, gauge_controller, voting_escrow, pool_proxy, erc20crv, confs=1
+    admin, new_admin, gauge_controller, voting_escrow, pool_proxy, erc20pul, confs=1
 ):
     gauge_controller = GaugeController.at(gauge_controller)
     voting_escrow = VotingEscrow.at(voting_escrow)
     pool_proxy = PoolProxy.at(pool_proxy)
-    erc20crv = ERC20CRV.at(erc20crv)
+    erc20pul = ERC20PUL.at(erc20pul)
 
     gauge_controller.commit_transfer_ownership(new_admin, {"from": admin, "required_confs": confs})
     gauge_controller.apply_transfer_ownership({"from": admin, "required_confs": confs})
@@ -56,4 +56,4 @@ def transfer_ownership(
     )
     pool_proxy.apply_set_admins({"from": admin, "required_confs": confs})
 
-    erc20crv.set_admin(new_admin, {"from": admin, "required_confs": confs})
+    erc20pul.set_admin(new_admin, {"from": admin, "required_confs": confs})

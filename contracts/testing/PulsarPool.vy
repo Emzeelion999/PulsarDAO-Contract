@@ -1,4 +1,4 @@
-# (c) Curve.Fi, 2020
+# (c) Pulsar, 2022
 # Pool for two plain coins
 # @version 0.2.4
 

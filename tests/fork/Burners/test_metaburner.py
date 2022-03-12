@@ -22,7 +22,7 @@ tokens = (
 @pytest.mark.parametrize("burner_balance", (True, False))
 @pytest.mark.parametrize("caller_balance", (True, False))
 def test_swap(
-    MintableTestToken, ThreeCRV, alice, receiver, burner, token, burner_balance, caller_balance
+    MintableTestToken, ThreePUL, alice, receiver, burner, token, burner_balance, caller_balance
 ):
     wrapped = MintableTestToken(token)
     amount = 10 ** wrapped.decimals()
@@ -41,6 +41,6 @@ def test_swap(
         assert wrapped.balanceOf(receiver) == 0
         assert wrapped.balanceOf(burner) == 0
 
-        assert ThreeCRV.balanceOf(alice) == 0
-        assert ThreeCRV.balanceOf(receiver) > 0
-        assert ThreeCRV.balanceOf(burner) == 0
+        assert ThreePUL.balanceOf(alice) == 0
+        assert ThreePUL.balanceOf(receiver) > 0
+        assert ThreePUL.balanceOf(burner) == 0

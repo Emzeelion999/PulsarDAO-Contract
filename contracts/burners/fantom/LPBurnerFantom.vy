@@ -1,7 +1,7 @@
 # @version 0.3.0
 """
 @title LpToken Burner
-@notice Converts Curve LP tokens to a single asset
+@notice Converts Pulsar LP tokens to a single asset
 """
 
 from vyper.interfaces import ERC20
@@ -14,7 +14,7 @@ interface Registry:
     def get_pool_from_lp_token(_lp_token: address) -> address: view
     def get_coins(_pool: address) -> address[8]: view
 
-interface StableSwap:
+interface Swap:
     def remove_liquidity_one_coin(_amount: uint256, i: int128, _min_amount: uint256): nonpayable
 
 
@@ -68,7 +68,7 @@ def burn(_coin: address) -> bool:
     if amount != 0:
         # remove liquidity and pass to the next burner
         swap_data: SwapData = self.swap_data[_coin]
-        StableSwap(swap_data.pool).remove_liquidity_one_coin(amount, swap_data.i, 0)
+        Swap(swap_data.pool).remove_liquidity_one_coin(amount, swap_data.i, 0)
 
         amount = ERC20(swap_data.coin).balanceOf(self)
         response: Bytes[32] = raw_call(

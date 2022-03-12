@@ -16,9 +16,9 @@ Parameter Agent: `dao install $DAO_ADDRESS agent --use-frame --env aragon:rinkeb
 
 Vault Agent: `dao install $DAO_ADDRESS agent --use-frame --env aragon:rinkeby`
 
-Ownership Voting: `dao install $DAO_ADDRESS curve-voting6.open.aragonpm.eth --app-init-args $VOTING_ESCROW 510000000000000000 500000000000000000 3600 2500 10 2500 50000 10 1000 --use-frame --env aragon:rinkeby`
+Ownership Voting: `dao install $DAO_ADDRESS pulsar-voting6.open.aragonpm.eth --app-init-args $VOTING_ESCROW 510000000000000000 500000000000000000 3600 2500 10 2500 50000 10 1000 --use-frame --env aragon:rinkeby`
 
-Parameter Voting: `dao install $DAO_ADDRESS curve-voting6.open.aragonpm.eth --app-init-args $VOTING_ESCROW 700000000000000000 150000000000000000 3600 2500 10 2500 50000 10 1000 --use-frame --env aragon:rinkeby`
+Parameter Voting: `dao install $DAO_ADDRESS pulsar-voting6.open.aragonpm.eth --app-init-args $VOTING_ESCROW 700000000000000000 150000000000000000 3600 2500 10 2500 50000 10 1000 --use-frame --env aragon:rinkeby`
 
 `dao acl create $DAO_ADDRESS $OWNERSHIP_VOTING_APP_ADDRESS CREATE_VOTES_ROLE 0xffffffffffffffffffffffffffffffffffffffff $OWNERSHIP_VOTING_APP_ADDRESS --use-frame --env aragon:rinkeby`
 

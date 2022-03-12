@@ -6,7 +6,7 @@
 
 from vyper.interfaces import ERC20
 
-interface StableSwap:
+interface Swap:
     def exchange(i: int128, j: int128, dx: uint256, min_dy: uint256): nonpayable
 
 interface CryptoPool:
@@ -44,13 +44,13 @@ def __init__(_recovery: address, _owner: address, _emergency_owner: address):
     """
     @notice Contract constructor
     @dev Unlike other burners, this contract may transfer tokens to
-         multiple addresses after the swap. Receiver addresses are
-         set by calling `set_swap_data` instead of setting it
-         within the constructor.
+        multiple addresses after the swap. Receiver addresses are
+        set by calling `set_swap_data` instead of setting it
+        within the constructor.
     @param _recovery Address that tokens are transferred to during an
-                     emergency token recovery.
+                    emergency token recovery.
     @param _owner Owner address. Can kill the contract, recover tokens
-                  and modify the recovery address.
+                and modify the recovery address.
     @param _emergency_owner Emergency owner address. Can kill the contract
                             and recover tokens.
     """
@@ -105,7 +105,7 @@ def burn(_coin: address) -> bool:
     if amount != 0:
         swap_data: SwapData = self.swap_data[_coin]
         if not swap_data.is_cryptoswap:
-            StableSwap(swap_data.pool).exchange(convert(swap_data.i, int128), convert(swap_data.j, int128), amount, 0)
+            Swap(swap_data.pool).exchange(convert(swap_data.i, int128), convert(swap_data.j, int128), amount, 0)
         elif _coin == ETH_ADDRESS or swap_data.coin == ETH_ADDRESS:
             CryptoPoolETH(swap_data.pool).exchange(swap_data.i, swap_data.j, amount, 0, True, value=eth_amount)
         else:

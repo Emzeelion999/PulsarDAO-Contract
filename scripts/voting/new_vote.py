@@ -6,19 +6,19 @@ from brownie import Contract, accounts, chain
 
 warnings.filterwarnings("ignore")
 
-# this script is used to prepare, simulate and broadcast votes within Curve's DAO
+# this script is used to prepare, simulate and broadcast votes within Pulsar's DAO
 # modify the constants below according the the comments, and then use `simulate` in
 # a forked mainnet to verify the result of the vote prior to broadcasting on mainnet
 
 # addresses related to the DAO - these should not need modification
-CURVE_DAO_OWNERSHIP = {
+PULSAR_DAO_OWNERSHIP = {
     "agent": "0x40907540d8a6c65c637785e8f8b742ae6b0b9968",
     "voting": "0xe478de485ad2fe566d49342cbd03e49ed7db3356",
     "token": "0x5f3b5DfEb7B28CDbD7FAba78963EE202a494e2A2",
     "quorum": 30,
 }
 
-CURVE_DAO_PARAM = {
+PULSAR_DAO_PARAM = {
     "agent": "0x4eeb3ba4f221ca16ed4a0cc7254e2e32df948c5f",
     "voting": "0xbcff8b0b9419b9a88c44546519b1e909cf330399",
     "token": "0x5f3b5DfEb7B28CDbD7FAba78963EE202a494e2A2",
@@ -34,7 +34,7 @@ EMERGENCY_DAO = {
 }
 
 # the intended target of the vote, should be one of the above constant dicts
-TARGET = CURVE_DAO_OWNERSHIP
+TARGET = PULSAR_DAO_OWNERSHIP
 
 # address to create the vote from - you will need to modify this prior to mainnet use
 SENDER = accounts.at("0x9B44473E223f8a3c047AD86f387B80402536B029", force=True)

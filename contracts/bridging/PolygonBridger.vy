@@ -1,7 +1,7 @@
 # @version 0.3.0
 """
 @title Polygon Bridging Contract
-@author Curve Finance
+@author Pulsar
 @license MIT
 """
 
@@ -30,7 +30,7 @@ future_admin: public(address)
 def __init__(_admin: address):
     """
     @param _admin Contract owner. Should be the `PoolProxy` contract
-                  used to handle fee burns.
+                used to handle fee burns.
     """
     self.admin = _admin
 

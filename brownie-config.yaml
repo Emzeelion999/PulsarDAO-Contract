@@ -12,4 +12,4 @@ networks:
 
 autofetch_sources: True
 dependencies:
-  - curvefi/curve-crypto-contract@1.0.0
+  - pulsarswap/pulsar-crypto-contract@1.0.0

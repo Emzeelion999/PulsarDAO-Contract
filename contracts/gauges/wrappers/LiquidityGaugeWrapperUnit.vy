@@ -1,9 +1,9 @@
 # @version 0.2.11
 """
 @title Tokenized Gauge Wrapper: Unit Protocol Edition
-@author Curve Finance
+@author Pulsar
 @license MIT
-@notice Tokenizes gauge deposits to allow claiming of CRV when
+@notice Tokenizes gauge deposits to allow claiming of PUL when
         deposited as a collateral within the unit.xyz Vault
 """
 
@@ -15,7 +15,7 @@ implements: ERC20
 interface LiquidityGauge:
     def lp_token() -> address: view
     def minter() -> address: view
-    def crv_token() -> address: view
+    def pul_token() -> address: view
     def deposit(_value: uint256): nonpayable
     def withdraw(_value: uint256): nonpayable
     def claimable_tokens(addr: address) -> uint256: nonpayable
@@ -47,7 +47,7 @@ event Approval:
 
 
 minter: public(address)
-crv_token: public(address)
+pul_token: public(address)
 lp_token: public(address)
 gauge: public(address)
 
@@ -62,9 +62,9 @@ symbol: public(String[32])
 # caller -> recipient -> can deposit?
 approved_to_deposit: public(HashMap[address, HashMap[address, bool]])
 
-crv_integral: uint256
-crv_integral_for: HashMap[address, uint256]
-claimable_crv: public(HashMap[address, uint256])
+pul_integral: uint256
+pul_integral_for: HashMap[address, uint256]
+claimable_pul: public(HashMap[address, uint256])
 
 # [uint216 claimable balance][uint40 timestamp]
 last_claim_data: uint256
@@ -93,7 +93,7 @@ def __init__(
     ERC20(lp_token).approve(_gauge, MAX_UINT256)
 
     self.minter = LiquidityGauge(_gauge).minter()
-    self.crv_token = LiquidityGauge(_gauge).crv_token()
+    self.pul_token = LiquidityGauge(_gauge).pul_token()
     self.lp_token = lp_token
     self.gauge = _gauge
 
@@ -106,7 +106,7 @@ def decimals() -> uint256:
 @internal
 def _checkpoint(_user_addresses: address[2]):
     claim_data: uint256 = self.last_claim_data
-    I: uint256 = self.crv_integral
+    I: uint256 = self.pul_integral
 
     if block.timestamp != claim_data % 2**40:
         last_claimable: uint256 = shift(claim_data, -40)
@@ -115,18 +115,18 @@ def _checkpoint(_user_addresses: address[2]):
         total_balance: uint256 = self.totalSupply
         if total_balance > 0:
             I += 10 ** 18 * d_reward / total_balance
-            self.crv_integral = I
+            self.pul_integral = I
         self.last_claim_data = block.timestamp + shift(claimable, 40)
 
     for addr in _user_addresses:
         if addr in [ZERO_ADDRESS, UNIT_VAULT]:
             # do not calculate an integral for the vault to ensure it cannot ever claim
             continue
-        user_integral: uint256 = self.crv_integral_for[addr]
+        user_integral: uint256 = self.pul_integral_for[addr]
         if user_integral < I:
             user_balance: uint256 = self.balanceOf[addr] + self.depositedBalanceOf[addr]
-            self.claimable_crv[addr] += user_balance * (I - user_integral) / 10 ** 18
-            self.crv_integral_for[addr] = I
+            self.claimable_pul[addr] += user_balance * (I - user_integral) / 10 ** 18
+            self.pul_integral_for[addr] = I
 
 
 @external
@@ -149,27 +149,27 @@ def claimable_tokens(addr: address) -> uint256:
     """
     self._checkpoint([addr, ZERO_ADDRESS])
 
-    return self.claimable_crv[addr]
+    return self.claimable_pul[addr]
 
 
 @external
 @nonreentrant('lock')
 def claim_tokens(addr: address = msg.sender):
     """
-    @notice Claim mintable CRV
+    @notice Claim mintable PUL
     @param addr Address to claim for
     """
     self._checkpoint([addr, ZERO_ADDRESS])
 
-    crv_token: address = self.crv_token
-    claimable: uint256 = self.claimable_crv[addr]
-    self.claimable_crv[addr] = 0
+    pul_token: address = self.pul_token
+    claimable: uint256 = self.claimable_pul[addr]
+    self.claimable_pul[addr] = 0
 
-    if ERC20(crv_token).balanceOf(self) < claimable:
+    if ERC20(pul_token).balanceOf(self) < claimable:
         Minter(self.minter).mint(self.gauge)
         self.last_claim_data = block.timestamp
 
-    ERC20(crv_token).transfer(addr, claimable)
+    ERC20(pul_token).transfer(addr, claimable)
 
 
 @external
@@ -284,7 +284,7 @@ def transferFrom(_from : address, _to : address, _value : uint256) -> bool:
 
     if _to == UNIT_VAULT:
         # when a `transferFrom` directs into the vault, consider it a deposited
-        # balance so that the recipient may still claim CRV from it
+        # balance so that the recipient may still claim PUL from it
         self.depositedBalanceOf[_from] += _value
 
     return True

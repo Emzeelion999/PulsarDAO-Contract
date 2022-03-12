@@ -1,7 +1,7 @@
 # @version 0.2.7
 """
-@title Curve Fee Distribution
-@author Curve Finance
+@title Pulsar Fee Distribution
+@author Pulsar
 @license MIT
 """
 
@@ -80,10 +80,10 @@ def __init__(
     @notice Contract constructor
     @param _voting_escrow VotingEscrow contract address
     @param _start_time Epoch time for fee distribution to start
-    @param _token Fee token address (3CRV)
+    @param _token Fee token address (3PUL)
     @param _admin Admin address
     @param _emergency_return Address to transfer `_token` balance to
-                             if this contract is killed
+                            if this contract is killed
     """
     t: uint256 = _start_time / WEEK * WEEK
     self.start_time = t
@@ -131,12 +131,12 @@ def checkpoint_token():
     """
     @notice Update the token checkpoint
     @dev Calculates the total number of tokens to be distributed in a given week.
-         During setup for the initial distribution this function is only callable
-         by the contract owner. Beyond initial distro, it can be enabled for anyone
-         to call.
+        During setup for the initial distribution this function is only callable
+        by the contract owner. Beyond initial distro, it can be enabled for anyone
+        to call.
     """
     assert (msg.sender == self.admin) or\
-           (self.can_checkpoint_token and (block.timestamp > self.last_token_time + TOKEN_CHECKPOINT_DEADLINE))
+        (self.can_checkpoint_token and (block.timestamp > self.last_token_time + TOKEN_CHECKPOINT_DEADLINE))
     self._checkpoint_token()
 
 
@@ -177,10 +177,10 @@ def _find_timestamp_user_epoch(ve: address, user: address, _timestamp: uint256, 
 @external
 def ve_for_at(_user: address, _timestamp: uint256) -> uint256:
     """
-    @notice Get the veCRV balance for `_user` at `_timestamp`
+    @notice Get the vePUL balance for `_user` at `_timestamp`
     @param _user Address to query balance for
     @param _timestamp Epoch time
-    @return uint256 veCRV balance
+    @return uint256 vePUL balance
     """
     ve: address = self.voting_escrow
     max_user_epoch: uint256 = VotingEscrow(ve).user_point_epoch(_user)
@@ -216,10 +216,10 @@ def _checkpoint_total_supply():
 @external
 def checkpoint_total_supply():
     """
-    @notice Update the veCRV total supply checkpoint
+    @notice Update the vePUL total supply checkpoint
     @dev The checkpoint is also updated by the first claimant each
-         new epoch week. This function may be called independently
-         of a claim, to reduce claiming gas costs.
+        new epoch week. This function may be called independently
+        of a claim, to reduce claiming gas costs.
     """
     self._checkpoint_total_supply()
 
@@ -298,11 +298,11 @@ def _claim(addr: address, ve: address, _last_token_time: uint256) -> uint256:
 def claim(_addr: address = msg.sender) -> uint256:
     """
     @notice Claim fees for `_addr`
-    @dev Each call to claim look at a maximum of 50 user veCRV points.
-         For accounts with many veCRV related actions, this function
-         may need to be called more than once to claim all available
-         fees. In the `Claimed` event that fires, if `claim_epoch` is
-         less than `max_epoch`, the account may claim again.
+    @dev Each call to claim look at a maximum of 50 user vePUL points.
+        For accounts with many vePUL related actions, this function
+        may need to be called more than once to claim all available
+        fees. In the `Claimed` event that fires, if `claim_epoch` is
+        less than `max_epoch`, the account may claim again.
     @param _addr Address to claim fees for
     @return uint256 Amount of fees claimed in the call
     """
@@ -334,10 +334,10 @@ def claim_many(_receivers: address[20]) -> bool:
     """
     @notice Make multiple fee claims in a single call
     @dev Used to claim for many accounts at once, or to make
-         multiple claims for the same address when that address
-         has significant veCRV history
+        multiple claims for the same address when that address
+        has significant vePUL history
     @param _receivers List of addresses to claim for. Claiming
-                      terminates at the first `ZERO_ADDRESS`.
+                    terminates at the first `ZERO_ADDRESS`.
     @return bool success
     """
     assert not self.is_killed
@@ -374,8 +374,8 @@ def claim_many(_receivers: address[20]) -> bool:
 @external
 def burn(_coin: address) -> bool:
     """
-    @notice Receive 3CRV into the contract and trigger a token checkpoint
-    @param _coin Address of the coin being received (must be 3CRV)
+    @notice Receive 3PUL into the contract and trigger a token checkpoint
+    @param _coin Address of the coin being received (must be 3PUL)
     @return bool success
     """
     assert _coin == self.token
@@ -428,7 +428,7 @@ def toggle_allow_checkpoint_token():
 def kill_me():
     """
     @notice Kill the contract
-    @dev Killing transfers the entire 3CRV balance to the emergency return address
+    @dev Killing transfers the entire 3PUL balance to the emergency return address
          and blocks the ability to claim or burn. The contract cannot be unkilled.
     """
     assert msg.sender == self.admin

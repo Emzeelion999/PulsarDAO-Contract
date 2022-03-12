@@ -38,7 +38,7 @@ contract ERC20:
     def transfer(to: address, amount: uint256) -> bool: modifying
     def transferFrom(spender: address, to: address, amount: uint256) -> bool: modifying
 
-contract CurvePool:
+contract PulsarPool:
     def A() -> uint256: constant
     def fee() -> uint256: constant
     def coins(i: int128) -> address: constant
@@ -165,8 +165,8 @@ def get_pool_info(_pool: address) -> PoolInfo:
         underlying_balances: EMPTY_UINT256_ARRAY,
         decimals: EMPTY_UINT256_ARRAY,
         lp_token: self.pool_data[_pool].lp_token,
-        A: CurvePool(_pool).A(),
-        fee: CurvePool(_pool).fee()
+        A: PulsarPool(_pool).A(),
+        fee: PulsarPool(_pool).fee()
     })
 
     _decimals_packed: bytes32 = self.pool_data[_pool].decimals
@@ -307,9 +307,9 @@ def get_exchange_amount(
     i, j, _is_underlying = self._get_token_indices(_pool, _from, _to)
 
     if _is_underlying:
-        return CurvePool(_pool).get_dy_underlying(i, j, _amount)
+        return PulsarPool(_pool).get_dy_underlying(i, j, _amount)
     else:
-        return CurvePool(_pool).get_dy(i, j, _amount)
+        return PulsarPool(_pool).get_dy(i, j, _amount)
 
 
 @public
@@ -345,9 +345,9 @@ def exchange(
         assert_modifiable(ERC20(_from).transferFrom(msg.sender, self, _amount))
 
     if _is_underlying:
-        CurvePool(_pool).exchange_underlying(i, j, _amount, _expected)
+        PulsarPool(_pool).exchange_underlying(i, j, _amount, _expected)
     else:
-        CurvePool(_pool).exchange(i, j, _amount, _expected)
+        PulsarPool(_pool).exchange(i, j, _amount, _expected)
 
     _received: uint256 = ERC20(_to).balanceOf(self) - _initial_balance
 
@@ -405,13 +405,13 @@ def add_pool(
             break
 
         # add coin
-        _coins[i] = CurvePool(_pool).coins(i)
+        _coins[i] = PulsarPool(_pool).coins(i)
         ERC20(_coins[i]).approve(_pool, MAX_UINT256)
         self.pool_data[_pool].coins[i] = _coins[i]
 
         # add underlying coin
         if _use_underlying:
-            _ucoins[i] = CurvePool(_pool).underlying_coins(i)
+            _ucoins[i] = PulsarPool(_pool).underlying_coins(i)
             if _ucoins[i] != _coins[i]:
                 ERC20(_ucoins[i]).approve(_pool, MAX_UINT256)
         else:

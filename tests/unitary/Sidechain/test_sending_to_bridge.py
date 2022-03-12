@@ -5,7 +5,7 @@ from hexbytes import HexBytes
 WEEK = 86400 * 7
 
 
-def test_anyswap_root_gauge_transfer_crv(alice, chain, gauge_controller, anyswap_root_gauge, token):
+def test_anyswap_root_gauge_transfer_pul(alice, chain, gauge_controller, anyswap_root_gauge, token):
     gauge_controller.add_type("Test", 10 ** 18, {"from": alice})
     gauge_controller.add_gauge(anyswap_root_gauge, 0, 1, {"from": alice})
 
@@ -24,7 +24,7 @@ def test_anyswap_root_gauge_transfer_crv(alice, chain, gauge_controller, anyswap
     assert token.balanceOf(ETH_ADDRESS) == amount
 
 
-def test_polygon_root_gauge_transfer_crv(alice, chain, gauge_controller, polygon_root_gauge, token):
+def test_polygon_root_gauge_transfer_pul(alice, chain, gauge_controller, polygon_root_gauge, token):
     gauge_controller.add_type("Test", 10 ** 18, {"from": alice})
     gauge_controller.add_gauge(polygon_root_gauge, 0, 1, {"from": alice})
 
@@ -56,7 +56,7 @@ def test_polygon_root_gauge_transfer_crv(alice, chain, gauge_controller, polygon
     assert memory[-data_length:] == expected_data
 
 
-def test_xdai_root_gauge_transfer_crv(alice, chain, gauge_controller, xdai_root_gauge, token):
+def test_xdai_root_gauge_transfer_pul(alice, chain, gauge_controller, xdai_root_gauge, token):
     gauge_controller.add_type("Test", 10 ** 18, {"from": alice})
     gauge_controller.add_gauge(xdai_root_gauge, 0, 1, {"from": alice})
 

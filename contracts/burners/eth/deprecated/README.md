@@ -1,3 +1,3 @@
-# curve-dao-contracts/contracts/burners/deprecated
+# PulsarDAO-Contracts/contracts/burners/deprecated
 
 Fee burner contracts which are no longer in use.

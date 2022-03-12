@@ -18,7 +18,7 @@ interface RegistrySwap:
 interface CryptoSwap:
     def exchange(i: uint256, j: uint256, dx: uint256, min_dy: uint256): nonpayable
 
-interface StableSwap:
+interface Swap:
     def remove_liquidity_one_coin(
         _token_amount: uint256,
         i: int128,
@@ -44,7 +44,7 @@ AMWBTC: constant(address) = 0x5c2ed810328349100A66B82b78a1791B101C9D61
 USDC: constant(address) = 0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174
 
 ATRICRYPTO3: constant(address) = 0x92215849c439E1f8612b6646060B4E3E5ef822cC
-AM3CRV: constant(address) = 0xE7a24EF0C5e95Ffb0f6684b813A78F2a3AD7D171
+AM3PUL: constant(address) = 0xE7a24EF0C5e95Ffb0f6684b813A78F2a3AD7D171
 
 SS_AAVE: constant(address) = 0x445FE580eF8d70FF569aB36e80c647af338db351
 
@@ -99,12 +99,12 @@ def burn(_coin: address) -> bool:
         RegistrySwap(registry_swap).exchange_with_best_rate(_coin, AMWBTC, amount, 0)
         amount = ERC20(AMWBTC).balanceOf(self)
 
-    # amWBTC -> am3CRV
+    # amWBTC -> am3PUL
     CryptoSwap(ATRICRYPTO3).exchange(1, 0, amount, 0)
 
-    # am3CRV -> USDC
-    amount = ERC20(AM3CRV).balanceOf(self)
-    StableSwap(SS_AAVE).remove_liquidity_one_coin(amount, 1, 0, True)
+    # am3PUL -> USDC
+    amount = ERC20(AM3PUL).balanceOf(self)
+    Swap(SS_AAVE).remove_liquidity_one_coin(amount, 1, 0, True)
 
     # transfer USDC to receiver
     amount = ERC20(USDC).balanceOf(self)
