@@ -90,7 +90,7 @@ Deploy subgraphs for Pulsar Voting App and VotingEscrow
 
 ### 5. Distributing Vested Tokens
 
-Vesting distribution is split between historic liquidity providers and other accounts (shareholders, team, etc).
+Vesting distribution is split between historic liquidity providers and other accounts (investors, team, etc).
 
 1. Configure [`deployment_config`](deployment_config.py) for this stage:
 

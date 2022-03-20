@@ -89,12 +89,12 @@ def transfer(_to : address, _value : uint256) -> bool:
 @external
 def transferFrom(_from : address, _to : address, _value : uint256) -> bool:
     """
-     @dev Transfer tokens from one address to another.
-          Note that while this function emits a Transfer event, this is not required as per the specification,
-          and other compliant implementations may not emit the event.
-     @param _from address The address which you want to send tokens from
-     @param _to address The address which you want to transfer to
-     @param _value uint256 the amount of tokens to be transferred
+    @dev Transfer tokens from one address to another.
+        Note that while this function emits a Transfer event, this is not required as per the specification,
+        and other compliant implementations may not emit the event.
+    @param _from address The address which you want to send tokens from
+    @param _to address The address which you want to transfer to
+    @param _value uint256 the amount of tokens to be transferred
     """
     # NOTE: vyper does not allow underflows
     #       so the following subtraction would revert on insufficient balance
@@ -112,10 +112,10 @@ def transferFrom(_from : address, _to : address, _value : uint256) -> bool:
 def approve(_spender : address, _value : uint256) -> bool:
     """
     @dev Approve the passed address to spend the specified amount of tokens on behalf of msg.sender.
-         Beware that changing an allowance with this method brings the risk that someone may use both the old
-         and the new allowance by unfortunate transaction ordering. One possible solution to mitigate this
-         race condition is to first reduce the spender's allowance to 0 and set the desired value afterwards:
-         https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
+        Beware that changing an allowance with this method brings the risk that someone may use both the old
+        and the new allowance by unfortunate transaction ordering. One possible solution to mitigate this
+        race condition is to first reduce the spender's allowance to 0 and set the desired value afterwards:
+        https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
     @param _spender The address which will spend the funds.
     @param _value The amount of tokens to be spent.
     """
@@ -129,8 +129,8 @@ def approve(_spender : address, _value : uint256) -> bool:
 def mint(_to: address, _value: uint256):
     """
     @dev Mint an amount of the token and assigns it to an account.
-         This encapsulates the modification of balances such that the
-         proper events are emitted.
+        This encapsulates the modification of balances such that the
+        proper events are emitted.
     @param _to The account that will receive the created tokens.
     @param _value The amount that will be created.
     """
@@ -145,7 +145,7 @@ def mint(_to: address, _value: uint256):
 def _burn(_to: address, _value: uint256):
     """
     @dev Internal function that burns an amount of the token of a given
-         account.
+        account.
     @param _to The account whose tokens will be burned.
     @param _value The amount that will be burned.
     """

@@ -257,7 +257,7 @@ def _checkpoint(addr: address, old_locked: LockedBalance, new_locked: LockedBala
         # Read values of scheduled changes in the slope
         # old_locked.end can be in the past and in the future
         # new_locked.end can ONLY by in the FUTURE unless everything expired: than zeros
-        old_dslope = self.slope_changes[old_locked.end]
+        old_dslope = self.[old_locked.end]
         if new_locked.end != 0:
             if new_locked.end == old_locked.end:
                 new_dslope = old_dslope
@@ -394,7 +394,7 @@ def deposit_for(_addr: address, _value: uint256):
     """
     @notice Deposit `_value` tokens for `_addr` and add to the lock
     @dev Anyone (even a smart contract) can deposit for someone else, but
-         cannot extend their locktime and deposit for a brand new user
+        cannot extend their locktime and deposit for a brand new user
     @param _addr User's wallet address
     @param _value Amount to add to user's lock
     """

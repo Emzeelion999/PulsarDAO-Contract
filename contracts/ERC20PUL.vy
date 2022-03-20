@@ -5,7 +5,7 @@
 @license MIT
 @notice ERC20 with piecewise-linear mining supply.
 @dev Based on the ERC-20 token standard as defined at
-     https://eips.ethereum.org/EIPS/eip-20
+    https://eips.ethereum.org/EIPS/eip-20
 """
 
 from vyper.interfaces import ERC20
@@ -51,12 +51,12 @@ YEAR: constant(uint256) = 86400 * 365
 
 # Allocation:
 # =========
-# * shareholders - 30%
-# * emplyees - 3%
-# * DAO-controlled reserve - 5%
-# * Early users - 5%
-# == 43% ==
-# left for inflation: 57%
+# * investors - 10%
+# * team,advisors - 20%
+# * DAO-controlled reserve - 50%
+# * airdrop - 10%
+# == 90% ==
+# left for inflation: 10%
 
 # Supply parameters
 INITIAL_SUPPLY: constant(uint256) = 1_303_030_303
@@ -101,12 +101,13 @@ def __init__(_name: String[64], _symbol: String[32], _decimals: uint256):
 def _update_mining_parameters():
     """
     @dev Update mining rate and supply at the start of the epoch
-         Any modifying mining call must also call this
+        Any modifying mining call must also call this
     """
     _rate: uint256 = self.rate
     _start_epoch_supply: uint256 = self.start_epoch_supply
 
-    self.start_epoch_time += RATE_REDUCTION_TIME
+    self.start_epoch_time += 
+    
     self.mining_epoch += 1
 
     if _rate == 0:
@@ -126,7 +127,7 @@ def update_mining_parameters():
     """
     @notice Update mining rate and supply at the start of the epoch
     @dev Callable by any address, but only once per epoch
-         Total supply becomes slightly larger if this function is called late
+        Total supply becomes slightly larger if this function is called late
     """
     assert block.timestamp >= self.start_epoch_time + RATE_REDUCTION_TIME  # dev: too soon!
     self._update_mining_parameters()
@@ -146,7 +147,7 @@ def start_epoch_time_write() -> uint256:
     else:
         return _start_epoch_time
 
-
+                                                        
 @external
 def future_epoch_time_write() -> uint256:
     """
@@ -186,7 +187,7 @@ def mintable_in_timeframe(start: uint256, end: uint256) -> uint256:
     @param end End of the time interval (timestamp)
     @return Tokens mintable from `start` till `end`
     """
-    assert start <= end  # dev: start > end
+    assert start<= end  # dev: start > end
     to_mint: uint256 = 0
     current_epoch_time: uint256 = self.start_epoch_time
     current_rate: uint256 = self.rate
@@ -273,7 +274,7 @@ def transfer(_to : address, _value : uint256) -> bool:
     """
     @notice Transfer `_value` tokens from `msg.sender` to `_to`
     @dev Vyper does not allow underflows, so the subtraction in
-         this function will revert on an insufficient balance
+        this function will revert on an insufficient balance
     @param _to The address to transfer to
     @param _value The amount to be transferred
     @return bool success
@@ -288,11 +289,11 @@ def transfer(_to : address, _value : uint256) -> bool:
 @external
 def transferFrom(_from : address, _to : address, _value : uint256) -> bool:
     """
-     @notice Transfer `_value` tokens from `_from` to `_to`
-     @param _from address The address which you want to send tokens from
-     @param _to address The address which you want to transfer to
-     @param _value uint256 the amount of tokens to be transferred
-     @return bool success
+    @notice Transfer `_value` tokens from `_from` to `_to`
+    @param _from address The address which you want to send tokens from
+    @param _to address The address which you want to transfer to
+    @param _value uint256 the amount of tokens to be transferred
+    @return bool success
     """
     assert _to != ZERO_ADDRESS  # dev: transfers to 0x0 are not allowed
     # NOTE: vyper does not allow underflows
