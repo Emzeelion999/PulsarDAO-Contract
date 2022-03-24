@@ -7,11 +7,13 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract TestToken is ERC20, Ownable {
     uint8 decimal;
 
-    constructor(string memory _name, string memory _symbol, uint8 _decimal)
-        ERC20(_name, _symbol)
-    {
+    constructor(
+        string memory _name,
+        string memory _symbol,
+        uint8 _decimal
+    ) ERC20(_name, _symbol) {
         _mint(msg.sender, 10000000000000000000000000000);
-        decimal=_decimal;
+        decimal = _decimal;
     }
 
     function mint(address account, uint256 amount) public onlyOwner {
