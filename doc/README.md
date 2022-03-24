@@ -15,7 +15,7 @@ PulsarDAO has a token PUL which is used for both governance and value accrual.
 
 Instead of voting with token amount <img src="https://render.githubusercontent.com/render/math?math=a">, in PulsarDAO tokens are lockable
 in a _VotingEscrow_ for a selectable locktime <img src="https://render.githubusercontent.com/render/math?math=t_l">, where <img src="https://render.githubusercontent.com/render/math?math=t_l < t_{\max}">,
-and <img src="https://render.githubusercontent.com/render/math?math=t_{\max} = 4~\text{years}">. After locking, the time _left to unlock_
+and <img src="https://render.githubusercontent.com/render/math?math=t_{\max} = 4\text{years}">. After locking, the time _left to unlock_
 is <img src="https://render.githubusercontent.com/render/math?math=t\le t_l">. The voting weight is equal to:
 <img src="https://render.githubusercontent.com/render/math?math=w = a \frac{t}{t_{\max}}.">
 In other words, the vote is both amount- and time-weighted, where the time
@@ -74,11 +74,11 @@ Each time the inflation changes, a new mining epoch starts.
 <img src="inflation.svg" width=280/>
 </div>
 
-Initial supply of PUL is <img src="https://render.githubusercontent.com/render/math?math=1.273"> billion tokens, which is $42\% of the eventual
+Initial supply of PUL is <img src="https://render.githubusercontent.com/render/math?math=1.273"> billion tokens, which is $42\%$ of the eventual
 (<img src="https://render.githubusercontent.com/render/math?math=t\rightarrow\infty">) supply of <img src="https://render.githubusercontent.com/render/math?math=\approx 3.03"> billion tokens.
 All of those initial tokens tokens are gradually vested (with every block).
 The initial inflation rate which supports the above inflation schedule is
-<img src="https://render.githubusercontent.com/render/math?math=r=22.0\%"> (279.6 millions per year). All of the inflation is distributed to users of Pulsar,
+$r=22.0\%$ (279.6 millions per year). All of the inflation is distributed to users of Pulsar,
 according to measurements taken by _gauges_.
 During the first year, the approximate inflow into circulating supply is 2 millions
 PUL per day, starting from 0.
