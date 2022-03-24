@@ -74,11 +74,11 @@ Each time the inflation changes, a new mining epoch starts.
 <img src="inflation.svg" width=280/>
 </div>
 
-Initial supply of PUL is <img src="https://render.githubusercontent.com/render/math?math=1.273"> billion tokens, which is $42\%$ of the eventual
+Initial supply of PUL is <img src="https://render.githubusercontent.com/render/math?math=1.273"> billion tokens, which is 42% of the eventual
 (<img src="https://render.githubusercontent.com/render/math?math=t\rightarrow\infty">) supply of <img src="https://render.githubusercontent.com/render/math?math=\approx 3.03"> billion tokens.
 All of those initial tokens tokens are gradually vested (with every block).
 The initial inflation rate which supports the above inflation schedule is
-$r=22.0\%$ (279.6 millions per year). All of the inflation is distributed to users of Pulsar,
+r=22.0% (279.6 millions per year). All of the inflation is distributed to users of Pulsar,
 according to measurements taken by _gauges_.
 During the first year, the approximate inflow into circulating supply is 2 millions
 PUL per day, starting from 0.
