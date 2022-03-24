@@ -1,7 +1,7 @@
 # @version 0.2.4
 """
 @title Voting Escrow
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 @notice Votes have a weight depending on time, so that users are
         committed to the future of (whatever they are voting for)

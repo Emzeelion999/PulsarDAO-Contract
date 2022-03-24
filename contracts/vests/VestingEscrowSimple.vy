@@ -1,7 +1,7 @@
 # @version 0.2.4
 """
 @title Simple Vesting Escrow
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 @notice Vests `ERC20PUL` tokens for a single address
 @dev Intended to be deployed many times via `VotingEscrowFactory`

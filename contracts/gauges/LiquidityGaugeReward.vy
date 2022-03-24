@@ -1,7 +1,7 @@
 # @version 0.2.4
 """
 @title Staking Liquidity Gauge
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 @notice Simultaneously stakes using Synthetix (== YFI) rewards contract
 """

@@ -1,7 +1,7 @@
 # @version 0.3.0
 """
 @title Root Forwarder
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 @notice Reciever contract for sidechain fees. Must be deployed to the same
         address as the sidechain bridger, when using a bridge that does not

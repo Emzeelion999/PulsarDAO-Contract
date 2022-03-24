@@ -1,7 +1,7 @@
 # @version 0.2.12
 """
 @title Rewards-Only Gauge
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 @notice Distribution of third-party rewards without PUL
 """

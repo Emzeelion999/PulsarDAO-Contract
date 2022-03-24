@@ -1,7 +1,7 @@
 # @version 0.2.12
 """
 @title Root-Chain Gauge
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 @notice Calculates total allocated weekly PUL emission
         mints and sends across a sidechain bridge

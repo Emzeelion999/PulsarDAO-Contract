@@ -1,7 +1,7 @@
 # @version 0.2.7
 """
 @title Pulsar Fee Distribution
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 """
 

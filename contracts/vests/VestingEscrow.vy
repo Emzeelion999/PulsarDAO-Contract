@@ -1,7 +1,7 @@
 # @version 0.2.4
 """
 @title Vesting Escrow
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 @notice Vests `ERC20PUL` tokens for multiple addresses over multiple vesting periods
 """

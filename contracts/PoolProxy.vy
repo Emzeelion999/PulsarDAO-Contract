@@ -1,7 +1,7 @@
 # @version 0.2.7
 """
 @title Pulsar Swap Proxy
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 """
 

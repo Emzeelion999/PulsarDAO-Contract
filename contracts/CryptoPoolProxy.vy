@@ -1,7 +1,7 @@
 # @version 0.2.12
 """
 @title Pulsar Crypto Pool Proxy
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 """
 

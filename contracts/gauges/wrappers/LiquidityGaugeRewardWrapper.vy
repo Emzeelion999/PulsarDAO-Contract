@@ -1,7 +1,7 @@
 # @version 0.2.8
 """
 @title Tokenized Liquidity Gauge Wrapper
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 @notice Allows tokenized deposits and claiming from `LiquidityGaugeReward`
 """

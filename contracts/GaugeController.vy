@@ -2,7 +2,7 @@
 
 """
 @title Gauge Controller
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 @notice Controls liquidity gauges and the issuance of coins through the gauges
 """

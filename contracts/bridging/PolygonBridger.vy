@@ -1,7 +1,7 @@
 # @version 0.3.0
 """
 @title Polygon Bridging Contract
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 """
 

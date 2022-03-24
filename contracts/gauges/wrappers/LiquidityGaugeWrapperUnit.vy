@@ -1,7 +1,7 @@
 # @version 0.2.11
 """
 @title Tokenized Gauge Wrapper: Unit Protocol Edition
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 @notice Tokenizes gauge deposits to allow claiming of PUL when
         deposited as a collateral within the unit.xyz Vault

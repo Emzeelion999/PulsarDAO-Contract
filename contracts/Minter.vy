@@ -1,7 +1,7 @@
 # @version 0.2.4
 """
 @title Token Minter
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 """
 

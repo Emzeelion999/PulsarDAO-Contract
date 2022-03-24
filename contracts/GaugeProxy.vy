@@ -1,7 +1,7 @@
 # @version 0.2.8
 """
 @title Pulsar LiquidityGaugeV2 Ownerhip Proxy
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 """
 

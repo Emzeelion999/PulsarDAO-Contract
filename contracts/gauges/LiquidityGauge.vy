@@ -1,7 +1,7 @@
 # @version 0.2.4
 """
 @title Liquidity Gauge
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 @notice Used for measuring liquidity and insurance
 """

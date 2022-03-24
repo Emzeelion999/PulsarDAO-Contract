@@ -1,7 +1,7 @@
 # @version 0.2.16
 """
 @title RewardClaimer
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 @notice Passthrough to allow claiming from multiple reward streamers
 """

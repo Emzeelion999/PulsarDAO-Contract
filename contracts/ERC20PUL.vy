@@ -1,7 +1,7 @@
 # @version 0.2.4
 """
 @title PulsarDAO Token
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 @notice ERC20 with piecewise-linear mining supply.
 @dev Based on the ERC-20 token standard as defined at

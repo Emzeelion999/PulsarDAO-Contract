@@ -1,7 +1,7 @@
 # @version 0.2.16
 """
 @title Liquidity Gauge v4
-@author Pulsar
+@author Curve & Pulsar
 @license MIT
 """
 
