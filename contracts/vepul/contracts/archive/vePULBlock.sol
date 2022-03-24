@@ -150,7 +150,7 @@ contract vePULBlock is Ownable, Multicall, ReentrancyGuard, ERC721Enumerable, IE
     /// @notice constructor
     /// @param tokenAddr address of locked token
     /// @param _secondsPerBlockX64 seconds between two adj blocks, in 64-bit fix point format
-    constructor(address tokenAddr, uint256 _secondsPerBlockX64, RewardInfo memory _rewardInfo) ERC721("Pulsar DAO veNFT", "vePUL") {
+    constructor(address tokenAddr, uint256 _secondsPerBlockX64, RewardInfo memory _rewardInfo) ERC721("PulsarDAO veNFT", "vePUL") {
         token = tokenAddr;
         pointHistory[0].blk = block.number;
 
