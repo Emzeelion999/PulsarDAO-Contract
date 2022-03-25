@@ -1,8 +1,7 @@
 require("@nomiclabs/hardhat-waffle");
-
-// require("@nomiclabs/hardhat-truffle5");
-require("hardhat-contract-sizer");
 require("@nomiclabs/hardhat-ethers");
+require("@nomiclabs/hardhat-truffle5");
+require("hardhat-contract-sizer");
 
 const secret = require("./.secret.js");
 

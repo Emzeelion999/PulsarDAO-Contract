@@ -15,8 +15,8 @@ const para = {
 
 //mint uniswap v3 nft
 async function main() {
-  const VePULFactory = await ethers.getContractFactory("vePUL");
-  const vePUL = VePULFactory.attach(vePULAddress);
+  const vePULFactory = await ethers.getContractFactory("vePUL");
+  const vePUL = vePULFactory.attach(vePULAddress);
   console.log(await vePUL.ownerOf(para.nftid));
 }
 main()
