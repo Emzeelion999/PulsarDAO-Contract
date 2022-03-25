@@ -6,3 +6,15 @@ build/
 reports/
 /scripts/deployment_config_prod.py
 /scripts/deployment_keys.py
+node_modules
+
+# environment
+.env
+.secret.js
+
+.eslintcache
+
+.DS_Store
+
+cache
+artifacts
