@@ -6,7 +6,7 @@ Vyper contracts used in the [Pulsar](https://www.pulsarswap.com/) Governance DAO
 
 PulsarDAO consists of multiple smart contracts connected by [Aragon](https://github.com/aragon/aragonOS). Interaction with Aragon occurs through a [modified implementation](https://github.com/PulsarSwap/pulsar-aragon-voting) of the [Aragon Voting App](https://github.com/aragon/aragon-apps/tree/master/apps/voting). Aragon's standard one token, one vote method is replaced with a weighting system based on locking tokens. PulsarDAO has a token (PUL) which is used for both governance and value accrual.
 
-View the [documentation](https://pulsar.readthedocs.io/dao-overview.html) for a more in-depth explanation of how PulsarDAO works.
+View the [documentation](https://pulsarswap.readthedocs.io/dao-overview.html) for a more in-depth explanation of how PulsarDAO works.
 
 ## Testing and Development
 

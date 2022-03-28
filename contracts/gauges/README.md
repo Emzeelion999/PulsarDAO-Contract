@@ -2,7 +2,7 @@
 
 Contracts used for measuring provided liquidity within Pulsar pools.
 
-You can read the [documentation](https://pulsar.readthedocs.io/dao-gauges.html) to learn more about Pulsar gauges.
+You can read the [documentation](https://pulsarswap.readthedocs.io/dao-gauges.html) to learn more about Pulsar gauges.
 
 ## Contracts
 
