@@ -265,7 +265,7 @@ interface IMasterChefV2 {
 }
 
 /// @author @0xKeno
-contract PulsarRewarder is IRewarder, BoringOwnable {
+contract PulsarDAORewarder is IRewarder, BoringOwnable {
     using BoringMath for uint256;
     using BoringMath128 for uint128;
     using BoringERC20 for IERC20;

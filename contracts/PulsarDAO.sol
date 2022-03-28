@@ -13,9 +13,14 @@ contract PulsarDAO is ERC20, EIP712 {
     address public constant ADDR_DAO =
         0x9be86E75E67f2ef9a44730C60cF04Ef9F944CCee;
 
-    // for early contributors.
-    uint256 public constant AMOUNT_CONTRIBUTOR = (MAX_SUPPLY / 100) * 15;
+    // for contributors.
+    uint256 public constant AMOUNT_CONTRIBUTOR = (MAX_SUPPLY / 100) * 20;
     address public constant ADDR_CONTRIBUTOR =
+        0x9be86E75E67f2ef9a44730C60cF04Ef9F944CCee;
+
+    // for investors.
+    uint256 public constant AMOUNT_INVESTOR = (MAX_SUPPLY / 100) * 10;
+    address public constant ADDR_INVESTOR =
         0x9be86E75E67f2ef9a44730C60cF04Ef9F944CCee;
 
     // for staking
@@ -31,7 +36,11 @@ contract PulsarDAO is ERC20, EIP712 {
     // for airdrop
     uint256 public constant AMOUNT_AIREDROP =
         MAX_SUPPLY -
-            (AMOUNT_DAO + AMOUNT_CONTRIBUTOR + AMOUNT_STAKING + AMOUNT_LP);
+            (AMOUNT_DAO +
+                AMOUNT_CONTRIBUTOR +
+                AMOUNT_INVESTOR +
+                AMOUNT_STAKING +
+                AMOUNT_LP);
 
     constructor(
         string memory _name,
@@ -40,11 +49,13 @@ contract PulsarDAO is ERC20, EIP712 {
     ) ERC20(_name, _symbol) EIP712("PulsarDAO", "1") {
         _mint(ADDR_DAO, AMOUNT_DAO);
         _mint(ADDR_CONTRIBUTOR, AMOUNT_CONTRIBUTOR);
+        _mint(ADDR_INVESTOR, AMOUNT_INVESTOR);
         _mint(ADDR_STAKING, AMOUNT_STAKING);
         _mint(ADDR_LP, AMOUNT_LP);
         _totalSupply =
             AMOUNT_DAO +
             AMOUNT_CONTRIBUTOR +
+            AMOUNT_INVESTOR +
             AMOUNT_STAKING +
             AMOUNT_LP;
         cSigner = _signer;
